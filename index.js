@@ -9,10 +9,6 @@ require("dotenv").config();
 
 client.login(process.env.TOKEN);
 
-client.on("ready", () => {
-    console.log("Bot is online!");
-})
-
 
 const fs = require("fs");
 const { CLIENT_RENEG_LIMIT } = require("tls");
