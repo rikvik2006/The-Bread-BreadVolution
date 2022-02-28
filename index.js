@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const client = new Discord.Client({
+global.Discord = require('discord.js');
+global.client = new Discord.Client({
     intents: 32767,
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
