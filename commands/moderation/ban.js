@@ -23,10 +23,11 @@ module.exports = {
         if (!interaction.member.permissions.has("BAN_MEMBERS")) {
             return interaction.reply({ embeds: [no_permission], ephemeral: true })
         }
-        var no_banable = new Discord.MessageEmbed()
+        var no_permission = new Discord.MessageEmbed()
             .setColor("#ff0000")
-            .setTitle("No banable")
-            .setDescription("The user isn't banable")
+            .setTitle("No permission")
+            .setDescription("You don't have permission to ban this user")
+            .addField("Permission", "```BAN_MEMBERS```")
             .setThumbnail(interaction.client.user.avatarURL())
 
         var utente = interaction.options.getUser("user")

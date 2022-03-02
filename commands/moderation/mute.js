@@ -39,8 +39,9 @@ module.exports = {
         var no_permission = new Discord.MessageEmbed()
             .setColor("#ff0000")
             .setTitle("No permission")
+            .setThumbnail(interaction.client.user.avatarURL())
             .setDescription("You don't have permission to mute this user")
-            .addField("Permission", "KICK_MEMBERS")
+            .addField("Permission", "```KICK_MEMBERS```")
 
         const timeInMs = ms(length)
         if (timeInMs === undefined) 
@@ -50,8 +51,9 @@ module.exports = {
 
         var you_have_been_muted = new Discord.MessageEmbed()
             .setColor("#00ff00")
+            .setThumbnail(interaction.client.user.avatarURL())
             .setTitle("You have been muted")
-            .setDescription(`You have been muted for ${length}`)
+            .setDescription(`You have been muted for ${length.toString()}`)
             .addField("Reason", reason)
 
             interaction.reply({embeds: [you_have_been_muted]})
