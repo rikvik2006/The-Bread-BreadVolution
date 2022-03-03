@@ -53,7 +53,7 @@ module.exports = {
             .setColor("#00ff00")
             .setThumbnail(interaction.client.user.avatarURL())
             .setTitle("You have been muted")
-            .setDescription(`You have been muted for ${length.toString()}`)
+            .setDescription(`${user.toString()} have been muted for ${length.toString()}`)
             .addField("Reason", reason)
 
             interaction.reply({embeds: [you_have_been_muted]})
