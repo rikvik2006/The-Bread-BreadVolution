@@ -120,3 +120,17 @@ client.on("interactionCreate", interaction => {
 
     command.execute(interaction)
 })
+
+
+// DataBase connection
+
+global.mysql = require("mysql");
+
+global.con = mysql.createPool({
+    host: "breaddatabase.ddns.net",
+    port: 3306,
+    user: "PC_Portatile",
+    password: process.env.password_BreadDataBase,
+    database: "Bread_DataBase"
+
+})
