@@ -1,6 +1,6 @@
 const { Message } = require("discord.js")
 
-module.exports  = {
+module.exports = {
     name: "leaderboard",
     data: {
         name: "leaderboard",
@@ -9,7 +9,7 @@ module.exports  = {
     execute(interaction) {
         if (interaction.author.bot) return
         if (interaction.channel.type == "dm") {
-            return(interaction.reply({ embeds: [no_dm]}))
+            return (interaction.reply({ embeds: [no_dm] }))
         }
 
         var no_dm = new Discord.MessageEmbed()
@@ -20,7 +20,23 @@ module.exports  = {
 
         con.query("SELECT * FOROM userstats", (err, result) => {
             var userstatsList = result
-            
+
+            var leaderboardList = userstatsList.sort((a, b) => (a.xp < b.xp) ? 1 : ((b.xp < a.xp) ? -1 : 0))
+
+            var leaderboard = ""
+            for (var i = 0; i < 10; i++) {
+                if (leaderboardList.lenght - 1 < i) {
+                    break
+                }
+                leaderboard += `**#${i + 1}** ${leaderboardList[i].username} - Level ${leaderboardList[i].level}\r`
+            }
+
+            var leaderboard_embed = new Discord.MessageEmbed()
+                .setColor("#FFC307")
+                .setTitle("Leaderboard")
+                .setDescription("Rank leverls", leaderboard)
+
+            interaction.reply ({ embeds: [leaderboard_embed] })
         })
     }
 
