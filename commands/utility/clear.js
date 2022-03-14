@@ -7,7 +7,7 @@ module.exports = {
             {
                 name: "amount",
                 description: "The amount of messages to delete",
-                type: "integer",
+                type: "string",
                 required: true
             }
 
@@ -34,7 +34,18 @@ module.exports = {
             .setThumbnail(interaction.client.user.avatarURL())
             .seaFoter("I need the permission `MANAGE_MESSAGES`")
 
-        var amount = interaction.options.getInteger("amount")
+        var amount = interaction.options.getString("amount")
+        if (!isNaN(amount)) {
+            return interaction.reply({ embeds: [invalid_amount_embed] })
+        }
+
+        var invalid_amount_embed = new Discord.MessageEmbed()
+            .setTitle("Invalid amount")
+            .setDescription("The amount is invalid")
+            .setColor("#ff0000")
+            .setThumbnail(interaction.client.user.avatarURL())
+            .seaFoter("The amount must be a number")
+    
         if (amount > 100) {
             return interaction.reply({ embeds: [too_much_embed] })
         }
