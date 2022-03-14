@@ -19,6 +19,8 @@ module.exports = {
         ]
     },
     execute(interaction){
+        
+        var member = interaction.guild.members.cache.get(user.id)
         if (!interaction.member.permissions.has("KICK_MEMBERS")) {
             return interaction.reply({ embeds: [no_permission], ephemeral: true })
         }
@@ -33,7 +35,6 @@ module.exports = {
         var user = interaction.options.getUser("user")
         var reason = interaction.options.getString("reason") || "No reason"
 
-        var member = interaction.guild.members.cache.get(user.id)
 
         if (!member?.kikable) {
             return interaction.reply({ embeds: [no_kikable], ephemeral: true });

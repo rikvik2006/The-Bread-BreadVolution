@@ -3,7 +3,7 @@ module.exports = {
     description: "Message Create",
     execute(message) {
         if (message.author.bot) return
-        if (message.channell.type == "dm") {
+        if (message.DMChannel) {
             return (message.reply({ embeds: [no_dm] }))
         }
         var no_dm = new Discord.MessageEmbed()
@@ -33,7 +33,7 @@ module.exports = {
             var userstats = userstatsList[index];
 
             if (userstats.cooldownXp <= 0) {
-                userstatasl.coolddownXP = 60; 
+                userstats.coolddownXP = 60; 
                 var xp = Math.floor(Math.random() * (40 - 15 + 1)) + 15;
                 userstats.xp += xp;
 

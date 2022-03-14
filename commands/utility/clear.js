@@ -7,13 +7,19 @@ module.exports = {
             {
                 name: "amount",
                 description: "The amount of messages to delete",
-                type: "string",
+                type: "NUMBER",
                 required: true
             }
 
         ]
     },
-    execute(interaction) {
+    async execute (interaction) {
+
+        await interaction.deferReply({
+            ephemeral: true,
+        });
+
+        
         if (!interaction.member.permission.has("MANAGE_MESSAGES")) {
             return interaction.reply({ embeds: [no_premission_embed] })
         }
@@ -34,10 +40,10 @@ module.exports = {
             .setThumbnail(interaction.client.user.avatarURL())
             .seaFoter("I need the permission `MANAGE_MESSAGES`")
 
-        var amount = interaction.options.getString("amount")
-        if (!isNaN(amount)) {
-            return interaction.reply({ embeds: [invalid_amount_embed] })
-        }
+        var amount = interaction.options.getNumber("amount") || 0
+        // if (!isNaN(amount)) {
+        //     return interaction.reply({ embeds: [invalid_amount_embed] })
+        // }
 
         var invalid_amount_embed = new Discord.MessageEmbed()
             .setTitle("Invalid amount")

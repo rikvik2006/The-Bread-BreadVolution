@@ -12,7 +12,12 @@ module.exports = {
             }
         ]
     },
-    execute(interaction) {
+    async execute(interaction) {
+
+        await interaction.deferReply({
+            ephemeral: true,
+        });
+
         if (interaction.author.bot) return
         if (interaction.channel.type == "dm") return
 
@@ -25,7 +30,7 @@ module.exports = {
 
             var index = userstatsList.findIndex(x => x.userid == user.id)
             if (index < 0) {
-                interaction.reply({ embeds: [no_rank] })
+                interaction.editReply({ embeds: [no_rank] })
                 return
             }
             var no_rank = new Discord.MessageEmbed()
@@ -53,7 +58,7 @@ module.exports = {
                 .setThumbnail(utente.user.avatarURL())
                 .addField("Level " + userstats.level, progress)
 
-            interaction.reply({ embeds: [Level_Embed] })
+            interaction.editReply({ embeds: [Level_Embed] })
         })
     }
 }

@@ -6,10 +6,17 @@ module.exports = {
         name: "leaderboard",
         description: "Leaderboard"
     },
-    execute(interaction) {
+    async execute(interaction) {
+
+
+        await interaction.deferReply({
+            ephemeral: true,
+        });
+
+
         if (interaction.author.bot) return
         if (interaction.channel.type == "dm") {
-            return (interaction.reply({ embeds: [no_dm] }))
+            return (interaction.editReply({ embeds: [no_dm] }))
         }
 
         var no_dm = new Discord.MessageEmbed()
@@ -36,7 +43,7 @@ module.exports = {
                 .setTitle("Leaderboard")
                 .setDescription("Rank leverls", leaderboard)
 
-            interaction.reply ({ embeds: [leaderboard_embed] })
+            interaction.editReply ({ embeds: [leaderboard_embed] })
         })
     }
 
