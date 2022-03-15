@@ -5,6 +5,7 @@ global.client = new Discord.Client({
 });
 global.WOKCommands = require("WOKCommands");
 const path = require("path");
+global.mongoose = require("mongoose");
 
 
 require("dotenv").config();
@@ -29,7 +30,8 @@ for (const file of functionFile) {
 
 // Commands Eandler
 
-client.on("ready", () => {
+client.on("ready", async () => {
+    await mongoose.connect(process.env.MONGO_URI, {})
 
     new WOKCommands(client, {
         commandsDir: path.join(__dirname, "commands_"),
