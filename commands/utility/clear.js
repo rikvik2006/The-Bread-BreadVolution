@@ -1,5 +1,7 @@
 module.exports = {
+    category: "Utility",
     name: "clear",
+    description: "Clear the chat",
     data: {
         name: "clear",
         description: "Clear the chat",
@@ -13,11 +15,7 @@ module.exports = {
 
         ]
     },
-    async execute (interaction) {
-
-        await interaction.deferReply({
-            ephemeral: true,
-        });
+    async callback (interaction) {
 
         
         if (!interaction.member.permission.has("MANAGE_MESSAGES")) {

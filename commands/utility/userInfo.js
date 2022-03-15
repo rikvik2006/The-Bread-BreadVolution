@@ -12,7 +12,7 @@ module.exports = {
             }
         ]
     },
-    execute(interaction) {
+    callback(interaction) {
         var user = interaction.options.getUser("user")
         var member = interaction.guild.members.cache.get(user.id)
 

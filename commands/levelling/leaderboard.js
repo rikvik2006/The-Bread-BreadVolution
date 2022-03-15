@@ -6,7 +6,7 @@ module.exports = {
         name: "leaderboard",
         description: "Leaderboard"
     },
-    async execute(interaction) {
+    async callback(interaction) {
 
 
         await interaction.deferReply({

@@ -4,7 +4,7 @@ module.exports = {
         name: "serverinfo",
         description: "Get information about the server",
     },
-    execute(interaction) {
+    callback(interaction) {
 
         var server = interaction.guild;
 

@@ -18,7 +18,7 @@ module.exports = {
             }
         ]
     },
-    execute(interaction) {
+    callback(interaction) {
 
         if (!interaction.member.permissions.has("BAN_MEMBERS")) {
             return interaction.reply({ embeds: [no_permission], ephemeral: true })

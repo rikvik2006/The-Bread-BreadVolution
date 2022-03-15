@@ -26,7 +26,7 @@ module.exports = {
             }
         ]
     },
-    execute(interaction) {
+    callback(interaction) {
         var user = interaction.options.getUser("user")
         var reason = interaction.options.getString("reason") || "No reason"
         var length = interaction.options.getString("length")

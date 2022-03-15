@@ -12,7 +12,7 @@ module.exports = {
             }
         ]
     },
-    async execute(interaction) {
+    async callback(interaction) {
 
         await interaction.deferReply({
             ephemeral: true,

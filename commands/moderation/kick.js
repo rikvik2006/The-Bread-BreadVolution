@@ -18,7 +18,7 @@ module.exports = {
             }
         ]
     },
-    execute(interaction){
+    callback(interaction){
         
         var member = interaction.guild.members.cache.get(user.id)
         if (!interaction.member.permissions.has("KICK_MEMBERS")) {

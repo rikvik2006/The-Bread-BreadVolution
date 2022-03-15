@@ -1,17 +1,23 @@
 module.exports = {
+    category: "Help",
     name: "help",
-    data: {
-        name: "help",
-        description: "Help command"
-    },
-    execute(interaction) {
-        var help_embed = new Discord.MessageEmbed()
-            .setColor("#0099ff")
+    description: "Commands list",
+    testOnly: true,
+
+    callback: ({client, member}) => {
+        let help_embed = new Discord.MessageEmbed()
+            .setAuthor(member.user.tag, client.user.avatarURL())
             .setTitle("Help")
-            .setDescription("Prefix `!!`")
-            .addField("!!moderation")
-            .addField("!!utility")
-        
-        interaction.reply({ embeds: [help_embed] })
+            .setDescription("List of commands")
+            .setColor("#EECF6D")
+            .setThumbnail(member.user.avatarURL())
+            .addField("```Ban```", "Ban a user", true)
+            .addField("```Kick```", "Kick a user", true)
+            .addField("```Clear```", "Clear the chat", true)
+            .addField("```Serverinfo```", "Get information about the server", false)
+            .addField("```Userinfo```", "Get information about the user", true)
+            .addField("```Rank [user]```", "Get the rank of a user", true)
+        return help_embed
+    
     }
 }
