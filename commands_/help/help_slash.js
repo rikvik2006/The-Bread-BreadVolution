@@ -4,13 +4,13 @@ module.exports = {
     description: "Commands list",
     testOnly: true,
 
-    callback: ({client, member}) => {
+    callback: ({client}) => {
         let help_embed = new Discord.MessageEmbed()
-            .setAuthor(member.user.tag, client.user.avatarURL())
+            .setAuthor(client.user.tag, client.user.avatarURL())
             .setTitle("Help")
             .setDescription("List of commands")
             .setColor("#EECF6D")
-            .setThumbnail(member.user.avatarURL())
+            .setThumbnail(client.user.avatarURL())
             .addField("```Ban```", "Ban a user", true)
             .addField("```Kick```", "Kick a user", true)
             .addField("```Clear```", "Clear the chat", true)
