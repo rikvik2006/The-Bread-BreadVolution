@@ -31,11 +31,20 @@ for (const file of functionFile) {
 // Commands Eandler
 
 client.on("ready", async () => {
-    await mongoose.connect(process.env.MONGO_URI, {})
+    // await mongoose.connect(
+    //     process.env.MONGO_URI, 
+    //     {
+    //         keepAlive: true,
+    //     }
+    // )
 
     new WOKCommands(client, {
         commandsDir: path.join(__dirname, "commands_"),
-        testServers: ["942724845760806953"]
+        testServers: ["942724845760806953"],
+        mongoUri: process.env.MONGO_URI,
+        dbOptions: {
+            keepAlive: true,
+        }
     })
     .setDefaultPrefix("!!")
 
