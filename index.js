@@ -40,6 +40,7 @@ client.on("ready", async () => {
 
     new WOKCommands(client, {
         commandsDir: path.join(__dirname, "commands_"),
+        messagesDir: path.join(__dirname, "messages.json"),
         testServers: ["942724845760806953"],
         mongoUri: process.env.MONGO_URI,
         dbOptions: {
