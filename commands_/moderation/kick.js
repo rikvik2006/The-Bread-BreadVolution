@@ -20,20 +20,20 @@ module.exports = {
     },
     callback(interaction){
         
-        var member = interaction.guild.members.cache.get(user.id)
         if (!interaction.member.permissions.has("KICK_MEMBERS")) {
             return interaction.reply({ embeds: [no_permission], ephemeral: true })
         }
-
+        
         var no_permission = new Discord.MessageEmbed()
-            .setColor("#ff0000")
-            .setTitle("No permission")
-            .setDescription("You don't have permission to kick this user")
-            .addField("Permission", "```KICK_MEMBERS```")
-            .setThumbnail(interaction.client.user.avatarURL())
+        .setColor("#ff0000")
+        .setTitle("No permission")
+        .setDescription("You don't have permission to kick this user")
+        .addField("Permission", "```KICK_MEMBERS```")
+        .setThumbnail(interaction.client.user.avatarURL())
 
         var user = interaction.options.getUser("user")
         var reason = interaction.options.getString("reason") || "No reason"
+        var member = interaction.guild.members.cache.get(user.id)
 
 
         if (!member?.kikable) {
