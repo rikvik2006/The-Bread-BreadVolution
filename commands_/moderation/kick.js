@@ -1,61 +1,50 @@
 module.exports = {
-    name: "kick",
-    data:{
-        name: "kick",
-        description: "Kick a user from the server.",
-        options: [
-            {
-                name: "user",
-                description: "The user to kick",
-                type: "USER",
-                required: true
-            },
-            {
-                name: "reason",
-                description: "The reason for the kick",
-                type: "STRING",
-                required: false
+    category: "moderation",
+    description: "Kick a user from the server.",
+
+    permissions: ["KICK_MEMBERS"],
+
+    slash: "both",
+    testOnly: true,
+
+    guildOnly: true,
+
+    minArgs: 2,
+    expectedArgs: "<user> <reason>",
+    expectedARgsTypes: ["USER", "STRING"],
+
+    
+
+    callback: ({ message, interaction, args }) => {
+        const target = message ? message.mentions.members?.frist() : interaction.options.getMember("user")
+
+        const no_target = new Discord.MessageEmbed()
+            .setColor("#F71954")
+            .setTitle("No target")
+            .setDescription("You must mention a user to kick")
+            .setThumbnail(message.client.user.avatarURL()) 
+            .setFooter("Usege: !!kick @user <reason>", message.client.user.avatarURL())
+
+        if (!target.kikable) {
+            if (message) {
+                const no_kikable = new Discord.MessageEmbed()
+                    .setColor("#F71954")
+                    .setTitle("No kikable")
+                    .setDescription("The user isn't kikable")
+                    .setThumbnail(message.client.user.avatarURL())
+                    .setFooter("The user had to be a member of the server to be kikable", message.client.user.avatarURL())
+                
+                return (message.reply({ embeds: no_kikable }))
+
             }
-        ]
-    },
-    callback(interaction){
-        
-        if (!interaction.member.permissions.has("KICK_MEMBERS")) {
-            return interaction.reply({ embeds: [no_permission], ephemeral: true })
         }
-        
-        var no_permission = new Discord.MessageEmbed()
-        .setColor("#ff0000")
-        .setTitle("No permission")
-        .setDescription("You don't have permission to kick this user")
-        .addField("Permission", "```KICK_MEMBERS```")
-        .setThumbnail(interaction.client.user.avatarURL())
 
-        var user = interaction.options.getUser("user")
-        var reason = interaction.options.getString("reason") || "No reason"
-        var member = interaction.guild.members.cache.get(user.id)
+        args.shift()
+        const reason = args.join(" ") || "No reason"
 
-
-        if (!member?.kikable) {
-            return interaction.reply({ embeds: [no_kikable], ephemeral: true });
-        }
-        var no_kikable = new Discord.MessageEmbed()
-            .setColor("#ff0000")
-            .setTitle("No kikable")
-            .setDescription("The user isn't kikable")
-            .setThumbnail(interaction.client.user.avatarURL())
-
-        member.kick()
-
-        var kick_memeber = new Discord.MessageEmbed()
-            .setColor("#0099ff")
-            .setTitle("User kicked")
-            .setDescription(`has been kicked`)
-            .setThumbnail(user.displayAvatarURL())
-            .addField("User", user.toString())
-            .addField("Reason", reason)
-        
-        interaction.reply ({ embeds: [kick_memeber] })
+        target.kick(reason)
+        return `${target} has been kicked.`
     }
-
+    
 }
+
