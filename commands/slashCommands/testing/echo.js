@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { options } = require("../../comandi non utilizait/ban");
+
 
 module.exports = {
     data: new SlashCommandBuilder()
