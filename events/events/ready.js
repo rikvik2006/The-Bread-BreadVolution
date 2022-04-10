@@ -44,17 +44,6 @@ module.exports = {
         })();
 
         
-        //******************/
-        //    MongoDB
-        //******************/
-
-        await mongoose.connect(
-            process.env.MONGO_URI,
-            {
-                keepAlive: true,
-            }
-        )
-        
         // new WOKCommands(client, {
         //     commandsDir: path.join(__dirname, "commands_"),
         //     messagesDir: path.join(__dirname, "messages.json"),

@@ -3,9 +3,13 @@ global.client = new Discord.Client({
     intents: 32767,
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
-global.WOKCommands = require("WOKCommands");
-const path = require("path");
-global.mongoose = require("mongoose");
+const path = require("path")
+
+const Database = require("./config/Database");
+
+const db = new Database();
+
+db.connect();
 
 
 
