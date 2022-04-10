@@ -22,6 +22,7 @@ const fs = require("fs");
 const { CLIENT_RENEG_LIMIT } = require("tls");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
+const commands = [];
 
 client.commands = new Discord.Collection();
 
