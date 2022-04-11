@@ -5,7 +5,7 @@ global.client = new Discord.Client({
 });
 const path = require("path")
 
-const Database = require("./config/Database");
+const Database = require("./config/Database.js");
 
 const db = new Database();
 
