@@ -1,6 +1,6 @@
 global.Discord = require('discord.js');
 global.client = new Discord.Client({
-    intents: 32767,
+    intents: new Discord.Intents(131071),
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
 const path = require("path")
@@ -67,7 +67,7 @@ for (const folder of textCommandsFolder) {
             const command = require(`./commands/textCommands/${folder}/${file}`);
             client.commands.set(command.name, command);
         }
-        else { 
+        else {
             for (const file2 of commandsFiles2) {
                 const command = require(`./commands/textCommands/${folder}/${file}/${file2}`);
                 client.commands.set(command.name, command);
@@ -82,28 +82,30 @@ for (const folder of textCommandsFolder) {
 //     Event Handler
 //************************/
 
-const eventsFolders = fs.readdirSync('./events');
+const eventsFolders = fs.readdirSync('./events'); //events
 for (const folder of eventsFolders) {
     const eventsFiles = fs.readdirSync(`./events/${folder}`)
 
     for (const file of eventsFiles) {
         if (file.endsWith(".js")) {
             const event = require(`./events/${folder}/${file}`);
-            if (event.once) {
-                client.once(event.name, (...args) => event.execute(...args, commands));
-            } else {
-                client.on(event.name, (...args) => event.execute(...args, commands));
-            }
+            // if (event.once) {
+            //     client.once(event.name, (...args) => event.execute(...args, commands));
+            // } else {
+            //     client.on(event.name, (...args) => event.execute(...args, commands));
+            // }
+            client.on(event.name, (...args) => event.execute(...args, commands));
         }
         else {
             const eventsFiles2 = fs.readdirSync(`./events/${folder}/${file}`)
             for (const file2 of eventsFiles2) {
                 const event = require(`./events/${folder}/${file}/${file2}`);
-                if (event.once) {
-                    client.once(event.name, (...args) => event.execute(...args, commands));
-                } else {
-                    client.on(event.name, (...args) => event.execute(...args, commands));
-                }
+                // if (event.once) {
+                //     client.once(event.name, (...args) => event.execute(...args, commands)); 
+                // } else {
+                //     client.on(event.name, (...args) => event.execute(...args, commands));
+                // }
+                client.on(event.name, (...args) => event.execute(...args, commands));
             }
         }
     }
@@ -135,4 +137,6 @@ global.con = mysql.createPool({
     database: "Bread_DataBase"
 
 });
+
+
 

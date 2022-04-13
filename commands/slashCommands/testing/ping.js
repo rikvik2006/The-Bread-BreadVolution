@@ -17,8 +17,8 @@ module.exports = {
         const ping_embed = new Discord.MessageEmbed()
             .setColor("#0099ff")
             .setTitle("Pong!")
-            .setDescription(rackets[Math.floor(Math.random() * rackets.length)])
-            .setFooter(client.user.username,client.user.avatar)
+            // .setDescription(rackets[Math.floor(Math.random() * rackets.length)])
+            // .setFooter(client.user.username,client.user.avatar)
 
     }
 }

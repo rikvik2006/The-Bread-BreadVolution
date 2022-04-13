@@ -5,7 +5,6 @@ require("dotenv").config();
 module.exports = {
     name: "ready",
     description: "Ready event",
-    once: true,
     async execute(client, commands) {
 
         //******************/
@@ -21,6 +20,8 @@ module.exports = {
 
         const CLIENT_ID = client.user.id;
 
+      
+
         const rest = new REST({
             version: "9"
         }).setToken(process.env.TOKEN);
@@ -35,6 +36,7 @@ module.exports = {
                 } else {
                     await rest.put(Routes.applicationGuildCommands(CLIENT_ID, process.env.GUILD_ID), {
                         body: commands
+                        
                     });
                     console.log("Succefully registered commands locally!");
                 }
@@ -42,6 +44,8 @@ module.exports = {
                 if (err) console.error(err);
             }
         })();
+
+
 
         
         // new WOKCommands(client, {
