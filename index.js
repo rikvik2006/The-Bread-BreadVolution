@@ -4,6 +4,7 @@ global.client = new Discord.Client({
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
 const path = require("path")
+const { createSpinner } = require ('nanospinner'); 
 
 const Database = require("./config/Database.js");
 
@@ -33,15 +34,15 @@ client.commands = new Discord.Collection();
 //************************/
 
 
-const slashCommandsFolder = fs.readdirSync("./commands/slashCommands/");
-for (const folder of slashCommandsFolder) {
+const slashCommandsFolder = fs.readdirSync("./commands/slashCommands/"); //commands\slashCommands
+for (const folder of slashCommandsFolder) { 
     const commandsFiles = fs.readdirSync(`./commands/slashCommands/${folder}`);
     for (const file of commandsFiles) {
         if (file.endsWith(".js")) {
             const command = require(`./commands/slashCommands/${folder}/${file}`);
             // For slash commands
-            commands.push(command.data.toJSON());
-            client.commands.set(command.name, command);
+            commands.push(command.data.toJSON()); //command.data.toJSON()
+            client.commands.set(command.name, command); //command.name, command
         }
         else {
             const commandsFiles2 = fs.readdirSync(`./commands/slashCommands/${folder}/${file}`);
@@ -59,7 +60,7 @@ for (const folder of slashCommandsFolder) {
 // Text Commands Handler
 //************************/
 
-const textCommandsFolder = fs.readdirSync("./commands/textCommands/");
+const textCommandsFolder = fs.readdirSync("./commands/textCommands/"); //commands\textCommands
 for (const folder of textCommandsFolder) {
     const commandsFiles = fs.readdirSync(`./commands/textCommands/${folder}`);
     for (const file of commandsFiles) {
@@ -82,7 +83,7 @@ for (const folder of textCommandsFolder) {
 //     Event Handler
 //************************/
 
-const eventsFolders = fs.readdirSync('./events'); //events
+const eventsFolders = fs.readdirSync('./events'); //events\events1
 for (const folder of eventsFolders) {
     const eventsFiles = fs.readdirSync(`./events/${folder}`)
 
@@ -120,7 +121,6 @@ const functionFile = fs.readdirSync("./functions").filter(file => file.endsWith(
 for (const file of functionFile) {
     require(`./functions/${file}`);
 }
-console.log(`Loaded ${functionFile.length} functions`);
 
 
 //************************/
@@ -129,14 +129,30 @@ console.log(`Loaded ${functionFile.length} functions`);
 
 global.mysql = require("mysql");
 
-global.con = mysql.createPool({
-    host: "breaddatabase.ddns.net",
-    port: 3306,
-    user: "PC_Portatile",
-    password: process.env.password_BreadDataBase,
-    database: "Bread_DataBase"
+// try {
+    
+    global.con = mysql.createConnection({
+        host: "breaddatabase.ddns.net",
+        port: 3306,
+        user: "PC_Portatile",
+        password: process.env.password_BreadDataBase,
+        database: "Bread_DataBase"
 
-});
+    })
+    // .then(() => {
+    //     spinner.success({ text: "Connected to SQL Database!" });
+    // })
+
+try {
+    
+    con.connect();
+} catch (err) {
+    console.log(err);
+}
+// } catch (error) {
+//     spinner.error({ text: "Error while connecting to SQL Database!" });
+//     console.log(error);
+// }
 
 
 
