@@ -1,6 +1,7 @@
 const { REST } = require("@discordjs/rest")
 const { Routes } = require("discord-api-types/v9");
 require("dotenv").config();
+const { createSpinner } = require ('nanospinner'); 
 
 module.exports = {
     name: "ready",
@@ -21,7 +22,7 @@ module.exports = {
         const CLIENT_ID = client.user.id;
 
       
-
+        const spinner = createSpinner()
         const rest = new REST({
             version: "9"
         }).setToken(process.env.TOKEN);
@@ -32,31 +33,17 @@ module.exports = {
                     await rest.put(Routes.applicationCommands(CLIENT_ID), {
                         body: commands
                     });
-                    console.log("Succefully registered commands globaly!");
+                    spinner.success({ text: "Succefully registered commands globaly!"});
                 } else {
                     await rest.put(Routes.applicationGuildCommands(CLIENT_ID, process.env.GUILD_ID), {
                         body: commands
                         
                     });
-                    console.log("Succefully registered commands locally!");
+                    spinner.success({ text: "Succefully registered commands locally!"});
                 }
             } catch (err) {
                 if (err) console.error(err);
             }
         })();
-
-
-
-        
-        // new WOKCommands(client, {
-        //     commandsDir: path.join(__dirname, "commands_"),
-        //     messagesDir: path.join(__dirname, "messages.json"),
-        //     testServers: ["942724845760806953"],
-        //     mongoUri: process.env.MONGO_URI,
-        //     dbOptions: {
-        //         keepAlive: true,
-        //     }
-        // })
-        // .setDefaultPrefix("!!")
     }
 }

@@ -35,7 +35,7 @@ module.exports = {
             settings.save(err => {
                 if (err) {
                     console.log(err);
-                    return interaction.reply("An error occurred while trying to set the welcome channel.");
+                    return interaction.reply("An error occurred while trying to set the welcome channel. This error has been reported to the developers");
                 }
 
                 interaction.reply(`Welcome channel set to <#${interaction.options.getChannel("channel")}>`);
