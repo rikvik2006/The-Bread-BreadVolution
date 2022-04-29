@@ -13,7 +13,7 @@ module.exports = {
         ),
     async execute(interaction) {
 
-        if (!interaction.member.permission.cache.has([Permissions.FLAGS.ADMINISTRATOR])) {
+        if (!interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
             return interaction.reply("You do not have permission to use this command.");
         }
 
@@ -38,7 +38,7 @@ module.exports = {
                     return interaction.reply("An error occurred while trying to set the welcome channel. This error has been reported to the developers");
                 }
 
-                interaction.reply(`Welcome channel set to <#${interaction.options.getChannel("channel")}>`);
+                interaction.reply(`Welcome channel set to ${interaction.options.getChannel("channel")}`);
 
             })
         })
