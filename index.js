@@ -13,7 +13,6 @@ const db = new Database();
 db.connect();
 
 
-
 require("dotenv").config();
 
 
@@ -42,7 +41,7 @@ for (const folder of slashCommandsFolder) {
             const command = require(`./commands/slashCommands/${folder}/${file}`);
             // For slash commands
             commands.push(command.data.toJSON()); //command.data.toJSON()
-            client.commands.set(command.name, command); //command.name, command
+            client.commands.set(command.data.name, command); //command.name, command
         }
         else {
             const commandsFiles2 = fs.readdirSync(`./commands/slashCommands/${folder}/${file}`);
@@ -50,7 +49,7 @@ for (const folder of slashCommandsFolder) {
                 const command = require(`./commands/slashCommands/${folder}/${file}/${file2}`);
                 // For slash commands
                 commands.push(command.data.toJSON());
-                client.commands.set(command.name, command);
+                client.commands.set(command.data.name, command);
             }
         }
     }
@@ -129,30 +128,14 @@ for (const file of functionFile) {
 
 global.mysql = require("mysql");
 
-// try {
-    
-    global.con = mysql.createConnection({
-        host: "breaddatabase.ddns.net",
-        port: 3306,
-        user: "PC_Portatile",
-        password: process.env.password_BreadDataBase,
-        database: "Bread_DataBase"
 
-    })
-    // .then(() => {
-    //     spinner.success({ text: "Connected to SQL Database!" });
-    // })
+global.con = mysql.createConnection({
+    host: "breaddatabase.ddns.net",
+    port: 3306,
+    user: "PC_Portatile",
+    password: process.env.password_BreadDataBase,
+    database: "Bread_DataBase"
 
-try {
-    
-    con.connect();
-} catch (err) {
-    console.log(err);
-}
-// } catch (error) {
-//     spinner.error({ text: "Error while connecting to SQL Database!" });
-//     console.log(error);
-// }
+})
 
-
-
+con.connect();

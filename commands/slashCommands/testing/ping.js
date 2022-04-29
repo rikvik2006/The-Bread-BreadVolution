@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { DiscordAPIError } = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -8,11 +7,7 @@ module.exports = {
     async execute(interaction) {
         const rackets = ["🪑", "💺", "🏓", "🗑️", "🍝", "🍞", "🥖", "🥪", "🥯", "🐕", "🎮"];
 
-        await interaction.reply({
-            
-            content: ({embeds: [ping_embed]}),
-            ephemeral: true
-        });
+        interaction.reply("no non è un ping");
 
         const ping_embed = new Discord.MessageEmbed()
             .setColor("#0099ff")

@@ -13,7 +13,7 @@ module.exports = {
         ),
     async execute(interaction) {
 
-        if (!interaction.member.permission.has([Permissions.FLAGS.ADMINISTRATOR])) {
+        if (!interaction.member.permission.cache.has([Permissions.FLAGS.ADMINISTRATOR])) {
             return interaction.reply("You do not have permission to use this command.");
         }
 
