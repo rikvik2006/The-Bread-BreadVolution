@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const GuildSettings = require("../../../models/GuildSettings");
 const { Permissions } = require("discord.js");
+const Discord = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -38,7 +39,7 @@ module.exports = {
                     return interaction.reply("An error occurred while trying to set the welcome channel. This error has been reported to the developers");
                 }
 
-                interaction.reply(`Welcome channel set to ${interaction.options.getChannel("channel")}`);
+                interaction.reply({ content: `Welcome channel set to ${interaction.options.getChannel("channel")}`, ephemeral: true })
 
             })
         })
