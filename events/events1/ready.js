@@ -2,11 +2,12 @@ const { REST } = require("@discordjs/rest")
 const { Routes } = require("discord-api-types/v9");
 require("dotenv").config();
 const { createSpinner } = require ('nanospinner'); 
+const GuildConfig = require("../../models/GuildConfig")
 
 module.exports = {
     name: "ready",
     description: "Ready event",
-    async execute(client, commands) {
+    async execute(client, commands, guild) {
 
         //******************/
         //    Activity
@@ -45,5 +46,11 @@ module.exports = {
                 if (err) console.error(err);
             }
         })();
+
+        //******************/
+        //   Get GuildId   //
+        //******************/
+
+
     }
 }
