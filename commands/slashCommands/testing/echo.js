@@ -18,5 +18,6 @@ module.exports = {
             content: interaction.options.getString("message"),
             ephemeral: true
         })
+        
     }
 }
