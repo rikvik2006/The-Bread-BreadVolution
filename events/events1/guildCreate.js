@@ -6,7 +6,6 @@ module.exports = {
     async execute(guild) {
 
         GuildConfig.findOne({ guildId: guild.id }, (err, settings) => {
-            console.log(settings)
             if (err) {
 
                 const channel = guild.channels.cache.find(channel => channel.type === 'text' && channel.permissionsFor(guild.me).has('SEND_MESSAGES'))

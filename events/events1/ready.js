@@ -9,6 +9,7 @@ module.exports = {
     description: "Ready event",
     async execute(client, commands, guild) {
 
+
         //******************/
         //    Activity
         //******************/
@@ -50,7 +51,6 @@ module.exports = {
         //******************/
         //   Get GuildId   //
         //******************/
-
 
     }
 }
