@@ -45,7 +45,7 @@ module.exports = {
                 .setDescription(`You don't have permission to ${action}`)
                 .addField("Permission", `\`\`\`${permission_needed}\`\`\``)
             
-            return interaction.reply({ embeds: [no_permission_embed], ephemeral: true })
+            interaction.reply({ embeds: [no_permission_embed], ephemeral: true })
         }
 
         switch (options.getSubcommand()) {
@@ -53,7 +53,7 @@ module.exports = {
             case "add": {
 
                 if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
-                    no_permission("add channel to the anti spam system", "MANAGE MESSAGES")
+                    return no_permission("add channel to the anti spam system", "MANAGE MESSAGES")
                 }
 
                 const channel = options.getChannel("channel")
@@ -102,7 +102,7 @@ module.exports = {
             case "remove": {
 
                 if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
-                    no_permission("remove channel to the antispam system", "MANAGE MESSAGES")
+                    return no_permission("remove channel to the antispam system", "MANAGE MESSAGES")
                 }
 
 
@@ -152,14 +152,13 @@ module.exports = {
                     ephemeral: true
                 })
 
-            }
-                break;
+            } break;
 
             case "list": {
                 
 
                 if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
-                    no_permission("to watch a list of channel where the anti spam is activated", "MANAGE MESSAGES")
+                    return no_permission("to watch a list of channel where the anti spam is activated", "MANAGE MESSAGES")
                 }
 
 
@@ -197,8 +196,7 @@ module.exports = {
                     ephemeral: true
                 })
 
-            }
-                break;
+            } break;
 
 
         }

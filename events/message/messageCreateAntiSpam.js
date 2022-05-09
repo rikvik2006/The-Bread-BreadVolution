@@ -8,7 +8,6 @@ module.exports = {
 
     async execute(message) {
 
-        // If the message author is a bot or it's not from a guild
         if (message.author.bot || !message.guild) return
 
         let channelData
@@ -27,10 +26,8 @@ module.exports = {
 
         }
 
-        // If the channel data, where you're typing all the messages is same as it's saved in the DB it's gonna consider it
         if (channelData.Channels.some(chn => chn === message.channel.id)) {
 
-            // If map has the author id
             if (map.has(message.author.id)) {
 
                 const data = map.get(message.author.id)
@@ -39,7 +36,7 @@ module.exports = {
                 let msgs = data.msgs
 
                 // The 2000 here means the timer for sending each message - 2 messages should be sent at a higher consistency of 2 secs
-                // You can change the 2000 to any time interval you want
+
                 if (diff > 2000) {
 
                     clearTimeout(timer)
@@ -56,7 +53,7 @@ module.exports = {
 
                 } else {
 
-                    // If the time interval for messages are less than 2 secs
+        
                     const reason = "The user has sent a series of messages with an interval of less than 2 seconds"
 
                     ++msgs
@@ -64,10 +61,8 @@ module.exports = {
                     // If a person has exceed the parameter of sending 5 msgs inside an interval of 2 secs
                     if (parseInt(msgs) === 5) {
 
-                        // Require the member
                         const member = message.guild.members.cache.get(message.author.id)
 
-                        // Timeout the member
                         member.timeout(1 * 60 * 1000, reason).catch(err => {
 
                             if (err) {
@@ -96,7 +91,6 @@ module.exports = {
 
             } else {
 
-                // After the time is over remove the map from the member
                 let remove = setTimeout(() => {
                     map.delete(message.author.id)
                 }, 5000)
