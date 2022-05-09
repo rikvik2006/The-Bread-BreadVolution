@@ -15,11 +15,13 @@ const GuildConfigSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.String,
         required: false,
     },
-    moderatorRole: String,
     mamberLogChannel: {
         type: mongoose.SchemaTypes.String,
         required: false,
     },
+
+    moderatorRole: Array,
+    helperRole: Array,
 })
 
 module.exports = mongoose.model("GuildConfig", GuildConfigSchema);

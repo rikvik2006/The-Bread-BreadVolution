@@ -76,7 +76,7 @@ module.exports = {
                         message.reply({
                             embeds: [
                                 new Discord.MessageEmbed()
-                                    .setAuthor({name: `${message.author.tag}`, iconURL: message.author.displayAvatarURL()})
+                                    .setAuthor({name: `${message.author.username}#${message.author.discriminator}`, iconURL: message.author.displayAvatarURL()})
                                     .setDescription("Has been timed out for spamming!")
                                     
                             ]
