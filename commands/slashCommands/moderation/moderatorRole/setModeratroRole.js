@@ -90,7 +90,7 @@ module.exports = {
 
                 const set_guild_id_error = new Discord.MessageEmbed()
                     .setColor("#F04848")
-                    .setDescription("An error occurred while trying to set the moderator role. This error has been reported to the developers");
+                    .setDescription("An error occurred while trying to remove the moderator role. This error has been reported to the developers");
 
                 return interaction.reply({ embeds: [set_guild_id_error], ephemeral: true });
             }
@@ -98,7 +98,7 @@ module.exports = {
             if (!data.moderatorRoles.includes(role.id)) {
                 const not_yet_in_list = new Discord.MessageEmbed()
                     .setColor("#F04848")
-                    .setDescription(`The role ${role} is already in the moderator role list`);
+                    .setDescription(`The role ${role} isn't yet in the moderator role list`);
 
                 return interaction.reply({ embeds: [not_yet_in_list], ephemeral: true });
             }
@@ -113,7 +113,39 @@ module.exports = {
             interaction.reply({ embeds: [removed_to_list], ephemeral: true });
 
 
-        } else if (interaction.options.getSubcommad() === "list") {
+        } else if (interaction.options.getSubcommand() === "list") {
+            let data
+
+            try {
+
+                data = await GuildConfig.findOne({ guildId: interaction.guild.id })
+                if (!data) {
+                    data = await GuildConfig.create({ guildId: interaction.guild.id })
+                }
+            } catch (err) {
+                console.log(err);
+
+                const set_guild_id_error = new Discord.MessageEmbed()
+                    .setColor("#F04848")
+                    .setDescription("An error occurred while trying to whatch the list of moderator role. This error has been reported to the developers");
+
+                return interaction.reply({ embeds: [set_guild_id_error], ephemeral: true });
+            }
+
+            if (!data.moderatorRoles.length > 0) {
+                const no_role_added = new Discord.MessageEmbed()
+                    .setColor("#F04848")
+                    .setDescription("There are no moderator roles added to the list");
+
+                return interaction.reply({ embeds: [no_role_added], ephemeral: true});
+            }
+
+            const list_of_roles = new Discord.MessageEmbed()
+                .setTitle("Moderator roles")
+                .setColor("#2D2D2D")
+                .setDescription(`${data.moderatorRoles.map(role => `<@&${role}>`).join("\n")}`);
+
+            interaction.reply({ embeds: [list_of_roles], ephemeral: true });
 
         }
     }
