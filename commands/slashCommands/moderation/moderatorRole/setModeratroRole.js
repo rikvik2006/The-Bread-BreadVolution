@@ -34,7 +34,23 @@ module.exports = {
                 .setDescription("A list of the moderator roles")
         ),
     async execute(interaction) {
+
+        const no_permission = function (action, permission_needed) {
+            const no_permission_embed = new Discord.MessageEmbed()
+                .setColor("#F04848")
+                .setTitle("No permission")
+                .setDescription(`You don't have permission to ${action}`)
+                .addField("Permission", `\`\`\`${permission_needed}\`\`\``)
+            
+            interaction.reply({ embeds: [no_permission_embed], ephemeral: true })
+        }
+
         if (interaction.options.getSubcommand() === "add") {
+
+            if (!interaction.member.permissions.has("ADMINISTRATOR")) {
+                return no_permission("add a moderator role", "ADMINISTRATOR")
+            }
+
             const role = interaction.options.getRole("role");
 
             let data
@@ -75,6 +91,10 @@ module.exports = {
 
         } else if (interaction.options.getSubcommand() === "remove") {
 
+            if (!interaction.member.permissions.has("ADMINISTRATOR")) {
+                return no_permission("remove a moderator role", "ADMINISTRATOR")
+            }
+
             const role = interaction.options.getRole("role");
 
             let data
@@ -114,6 +134,11 @@ module.exports = {
 
 
         } else if (interaction.options.getSubcommand() === "list") {
+
+            if (!interaction.member.permissions.has("ADMINISTRATOR")) {
+                return no_permission("get a list of moderator roles", "ADMINISTRATOR")
+            }
+
             let data
 
             try {
