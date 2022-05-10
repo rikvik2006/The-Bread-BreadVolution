@@ -20,8 +20,8 @@ const GuildConfigSchema = new mongoose.Schema({
         required: false,
     },
 
-    moderatorRole: Array,
-    helperRole: Array,
+    moderatorRoles: Array,
+    helperRoles: Array,
 })
 
 module.exports = mongoose.model("GuildConfig", GuildConfigSchema);
