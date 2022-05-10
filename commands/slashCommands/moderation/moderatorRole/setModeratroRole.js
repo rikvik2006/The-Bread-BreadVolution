@@ -47,19 +47,19 @@ module.exports = {
                 }
             } catch (err) {
                 console.log(err);
-                
+
                 const set_guild_id_error = new Discord.MessageEmbed()
                     .setColor("#F04848")
                     .setDescription("An error occurred while trying to set the moderator role. This error has been reported to the developers");
 
-                return interaction.reply({ embeds: [set_guild_id_error], ephemeral: true});
+                return interaction.reply({ embeds: [set_guild_id_error], ephemeral: true });
             }
 
             if (data.moderatorRoles.includes(role.id)) {
                 const already_in_list = new Discord.MessageEmbed()
                     .setColor("#F04848")
                     .setDescription(`The role ${role.name} is already in the moderator role list`);
-                
+
                 return interaction.reply({ embeds: [already_in_list], ephemeral: true });
             }
 
@@ -68,12 +68,50 @@ module.exports = {
 
             const added_to_list = new Discord.MessageEmbed()
                 .setColor("#2D2D2D")
-                .setDescription(`The role ${role.name} has been added to the moderator role list`);
+                .setDescription(`The role ${role} has been added to the moderator role list`);
 
             interaction.reply({ embeds: [added_to_list], ephemeral: true });
 
 
         } else if (interaction.options.getSubcommand() === "remove") {
+
+            const role = interaction.options.getRole("role");
+
+            let data
+
+            try {
+
+                data = await GuildConfig.findOne({ guildId: interaction.guild.id })
+                if (!data) {
+                    data = await GuildConfig.create({ guildId: interaction.guild.id })
+                }
+            } catch (err) {
+                console.log(err);
+
+                const set_guild_id_error = new Discord.MessageEmbed()
+                    .setColor("#F04848")
+                    .setDescription("An error occurred while trying to set the moderator role. This error has been reported to the developers");
+
+                return interaction.reply({ embeds: [set_guild_id_error], ephemeral: true });
+            }
+
+            if (!data.moderatorRoles.includes(role.id)) {
+                const not_yet_in_list = new Discord.MessageEmbed()
+                    .setColor("#F04848")
+                    .setDescription(`The role ${role} is already in the moderator role list`);
+
+                return interaction.reply({ embeds: [not_yet_in_list], ephemeral: true });
+            }
+
+            data.moderatorRoles.splice(data.moderatorRoles.indexOf(role.id), 1);
+            await data.save()
+
+            const removed_to_list = new Discord.MessageEmbed()
+                .setColor("#2D2D2D")
+                .setDescription(`The role ${role} has been removed to the moderator role list`);
+
+            interaction.reply({ embeds: [removed_to_list], ephemeral: true });
+
 
         } else if (interaction.options.getSubcommad() === "list") {
 
