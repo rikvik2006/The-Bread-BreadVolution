@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const GuildConfigSchema = new mongoose.Schema({
     guildId: {
         type: mongoose.SchemaTypes.String,
@@ -22,6 +23,7 @@ const GuildConfigSchema = new mongoose.Schema({
 
     moderatorRoles: Array,
     helperRoles: Array,
+
 })
 
 module.exports = mongoose.model("GuildConfig", GuildConfigSchema);
