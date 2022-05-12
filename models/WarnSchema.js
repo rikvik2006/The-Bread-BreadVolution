@@ -17,4 +17,4 @@ const WarnSchema = new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model("warnDataBase", WarnSchema);
+module.exports = mongoose.model("WarnSchema", WarnSchema);
