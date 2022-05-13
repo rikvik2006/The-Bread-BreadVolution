@@ -6,7 +6,6 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("antispam")
         .setDescription("Activates the antispam")
-        .setDefaultPermission(true)
         .addSubcommand(subcommand =>
             subcommand
                 .setName("add")

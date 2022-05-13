@@ -1,6 +1,6 @@
-const Discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const WarnSchema = require("../../../../models/WarnSchema");
+const Discord = require("discord.js");
+const WarnSchema = require("../../../../models/WarnSchema")
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -20,7 +20,7 @@ module.exports = {
                     option
                         .setName("reason")
                         .setDescription("The reason for the warn")
-                        .setRequired(true)
+                        .setRequired(false)
                 )
 
         )
@@ -54,31 +54,72 @@ module.exports = {
 
         ),
 
-    async execute({ guild, member: staff, interaction }) {
+    async execute(interaction) {
         const user = interaction.options.getUser("user")
-        const reason = interaction.options.getString("reason")
+        const reason = interaction.options.getString("reason") || "No reason provided"
         const id = interaction.options.getString("id")
 
+        const no_permission = function (action, permission_needed) {
+            const no_permission_embed = new Discord.MessageEmbed()
+                .setColor("#F04848")
+                .setTitle("No permission")
+                .setDescription(`You don't have permission to ${action}`)
+                .addField("Permission", `\`\`\`${permission_needed}\`\`\``)
+
+            interaction.reply({ embeds: [no_permission_embed], ephemeral: true })
+        }
+
+
         if (interaction.options.getSubcommand() === "add") {
+
+            if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                return no_permission("add a warning to this user", "MANAGE MESSAGES")
+            }
+
             const warinng = await WarnSchema.create({
                 userId: user?.id,
-                staffId: staff.id,
-                guildId: guild.id,
+                staffId: interaction.member.id,
+                guildId: interaction.guild.id,
                 reason,
             })
 
-            return interaction.reply({ content: `Added a warning to ${user.tag} to <@${user?.id}>` })
+            const add_warn_embed = new Discord.MessageEmbed()
+                .setAuthor({ name: `${user.tag} as been warned`, iconURL: user.displayAvatarURL() })
+                .setDescription(`**WarningID:** ${warinng.id}\n**Reason:** ${reason}\n**Moderator:** <@${interaction.member.id}>`)
+
+            return interaction.reply({ embeds: [add_warn_embed] })
 
         } else if (interaction.options.getSubcommand() === "remove") {
 
+            if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                return no_permission("remove a warning from this user", "MANAGE MESSAGES")
+            }
+
+            // if (WarnSchema.findOne({_id: id} ) == null) {
+            //     const no_warn_found_embed = new Discord.MessageEmbed()
+            //         .setColor("#F04848")
+            //         .setDescription("No warning found with that ID")
+
+            //     return interaction.reply({ embeds: [no_warn_found_embed], ephemeral: true })
+            // }
+
             const warning = await WarnSchema.findByIdAndDelete(id)
 
-            return interaction.reply({ content: `Removed a warning to ${user.tag} to <@${user?.id}>` })
+            const remove_warn_embed = new Discord.MessageEmbed()
+                .setAuthor({ name: `${user.tag} was been forgiven`, iconURL: user.displayAvatarURL() })
+                .setDescription(`**WarningID:** ${warning.id}\n**Moderator:** ${interaction.member.id}`)
+
+            return interaction.reply({ embeds: [remove_warn_embed] })
 
         } else if (interaction.options.getSubcommand() === "list") {
+
+            if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                return no_permission("you don't have a permission to look for a list of warnings of this user", "MANAGE MESSAGES")
+            }
+
             const warnings = await WarnSchema.find({
                 userId: user?.id,
-                guildId: guild.id,
+                guildId: interaction.guild.id,
             })
 
             let description = `Warnings for <@${user?.id}>\n\n`
