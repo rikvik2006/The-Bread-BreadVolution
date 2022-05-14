@@ -32,12 +32,12 @@ module.exports = {
             subcommand
                 .setName("remove")
                 .setDescription("Removes a warning from the user")
-                .addUserOption(option =>
-                    option
-                        .setName("user")
-                        .setDescription("The user to remove a warning from")
-                        .setRequired(true)
-                )
+                // .addUserOption(option =>
+                //     option
+                //         .setName("user")
+                //         .setDescription("The user to remove a warning from")
+                //         .setRequired(true)
+                // )
                 .addStringOption(option =>
                     option
                         .setName("id")
@@ -92,6 +92,7 @@ module.exports = {
                 reason,
             })
 
+
             const add_warn_embed = new Discord.MessageEmbed()
                 .setAuthor({ name: `${user.tag} as been warned`, iconURL: user.displayAvatarURL() })
                 .setDescription(`**WarningID:** ${warinng.warnId}\n**Reason:** ${reason}\n**Moderator:** <@${interaction.member.id}>`)
@@ -119,13 +120,17 @@ module.exports = {
             } catch (err) {
                 console.log(err)
             }
-            
+
+            const remove_warn_user = data.userId
+
+            const member = interaction.guild.members.cache.get(remove_warn_user)
 
             const warning = await WarnSchema.findOne({ warnId: id }).deleteOne()
 
+            
 
             const remove_warn_embed = new Discord.MessageEmbed()
-                .setAuthor({ name: `${user.tag} was been forgiven`, iconURL: user.displayAvatarURL() })
+                .setAuthor({ name: `${member.tag} was been forgiven`, iconURL: member.displayAvatarURL() })
                 .setDescription(`**WarningID:** ${id}\n**Moderator:** <@${interaction.member.id}>`)
 
             return interaction.reply({ embeds: [remove_warn_embed] })
@@ -146,7 +151,7 @@ module.exports = {
             for (const warn of warnings) {
                 description += `**ID:** ${warn.warnId}\n`
                 description += `**Date:** ${warn.createdAt.toLocaleString()}\n`
-                description += `**Staff:** <@${warn.staffId}>\n`
+                description += `**Moderator:** <@${warn.staffId}>\n`
                 description += `**Reason:** ${warn.reason}\n\n`
             }
 
