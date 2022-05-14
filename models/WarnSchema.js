@@ -11,6 +11,7 @@ const WarnSchema = new mongoose.Schema(
         guildId: reqSting,
         reason: reqSting,
         staffId: reqSting,
+        warnId: reqSting,
     },
     {
         timestamps: true,

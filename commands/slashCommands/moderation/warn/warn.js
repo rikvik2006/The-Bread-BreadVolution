@@ -1,6 +1,10 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const Discord = require("discord.js");
-const WarnSchema = require("../../../../models/WarnSchema")
+const WarnSchema = require("../../../../models/WarnSchema");
+const mongoose = require("mongoose");
+const { ObjectId } = require("mongodb");
+const { v4: uuidv4 } = require('uuid');
+
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -54,6 +58,7 @@ module.exports = {
 
         ),
 
+
     async execute(interaction) {
         const user = interaction.options.getUser("user")
         const reason = interaction.options.getString("reason") || "No reason provided"
@@ -76,16 +81,20 @@ module.exports = {
                 return no_permission("add a warning to this user", "MANAGE MESSAGES")
             }
 
+
+            let myuuid = uuidv4();
+
             const warinng = await WarnSchema.create({
                 userId: user?.id,
                 staffId: interaction.member.id,
                 guildId: interaction.guild.id,
+                warnId: myuuid,
                 reason,
             })
 
             const add_warn_embed = new Discord.MessageEmbed()
                 .setAuthor({ name: `${user.tag} as been warned`, iconURL: user.displayAvatarURL() })
-                .setDescription(`**WarningID:** ${warinng.id}\n**Reason:** ${reason}\n**Moderator:** <@${interaction.member.id}>`)
+                .setDescription(`**WarningID:** ${warinng.warnId}\n**Reason:** ${reason}\n**Moderator:** <@${interaction.member.id}>`)
 
             return interaction.reply({ embeds: [add_warn_embed] })
 
@@ -95,19 +104,29 @@ module.exports = {
                 return no_permission("remove a warning from this user", "MANAGE MESSAGES")
             }
 
-            // if (WarnSchema.findOne({_id: id} ) == null) {
-            //     const no_warn_found_embed = new Discord.MessageEmbed()
-            //         .setColor("#F04848")
-            //         .setDescription("No warning found with that ID")
+            let data
 
-            //     return interaction.reply({ embeds: [no_warn_found_embed], ephemeral: true })
-            // }
+            try {
 
-            const warning = await WarnSchema.findByIdAndDelete(id)
+                data = await WarnSchema.findOne({ warnId: id })
+                if (!data) {
+                    const no_warn_found_embed = new Discord.MessageEmbed()
+                        .setColor("#F04848")
+                        .setDescription("No warning found with that ID")
+
+                    return interaction.reply({ embeds: [no_warn_found_embed], epehmeral: true })
+                }
+            } catch (err) {
+                console.log(err)
+            }
+            
+
+            const warning = await WarnSchema.findOne({ warnId: id }).deleteOne()
+
 
             const remove_warn_embed = new Discord.MessageEmbed()
                 .setAuthor({ name: `${user.tag} was been forgiven`, iconURL: user.displayAvatarURL() })
-                .setDescription(`**WarningID:** ${warning.id}\n**Moderator:** ${interaction.member.id}`)
+                .setDescription(`**WarningID:** ${id}\n**Moderator:** <@${interaction.member.id}>`)
 
             return interaction.reply({ embeds: [remove_warn_embed] })
 
@@ -122,20 +141,31 @@ module.exports = {
                 guildId: interaction.guild.id,
             })
 
-            let description = `Warnings for <@${user?.id}>\n\n`
+            let description
 
             for (const warn of warnings) {
-                description += `**ID:** ${warn.id}\n`
+                description += `**ID:** ${warn.warnId}\n`
                 description += `**Date:** ${warn.createdAt.toLocaleString()}\n`
                 description += `**Staff:** <@${warn.staffId}>\n`
                 description += `**Reason:** ${warn.reason}\n\n`
             }
 
-            const warn_list = new Discord.MessageEmbed()
-                .setDescription(description)
-                .setColor("#2D2D2D")
+            if (typeof description === "undefined") {
+                const no_warns_embed = new Discord.MessageEmbed()
+                    .setColor("#2D2D2D")
+                    .setAuthor({ name: `${user.tag} has no warnings`, iconURL: user.displayAvatarURL() })
 
-            return interaction.reply({ embeds: [warn_list] })
+                return interaction.reply({ embeds: [no_warns_embed] })
+            } else {
+
+                const warn_list = new Discord.MessageEmbed()
+                    .setAuthor({ name: `${user.tag}'s warnings`, iconURL: user.displayAvatarURL() })
+                    .setDescription(description)
+                    .setColor("#2D2D2D")
+
+                return interaction.reply({ embeds: [warn_list] })
+
+            }
         }
     }
 }
