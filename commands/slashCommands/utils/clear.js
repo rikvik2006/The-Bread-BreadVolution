@@ -47,13 +47,15 @@ module.exports = {
         }
 
         const messages_deleted_embed = new Discord.MessageEmbed()
-            .setDescription(`Deleted ${ammount} messages`)
+            .setDescription(`Deleted ${ammount} messages (This message will be automatically deleted
+                )`)
             .setColor("#2D2D2D")
 
-        interaction.bulkDelete(ammount, true)
-        interaction.reply({ embeds: [messages_deleted_embed] }).then(msg => {
-            msg.delete({ timeout: 5000 })
-        })
+        // await interaction.deleteReply(ammount, true)/
+        await interaction.reply({ embeds: [messages_deleted_embed] })
+        setTimeout(function() {
+            interaction.deleteReply()
+        }, 3000);
 
 
     }
