@@ -27,6 +27,26 @@ module.exports = {
             server.premiumTier = "No boost";
         }
 
+        let data_guild_config
+
+        let data_guild_settings
+
+        try {
+            data_guild_config = await GuildConfig.findOne({guildId: server.id})
+
+            data_guild_settings = await GuildSettings.findOne({guild_id: server.id})
+
+            if (!data_guild_config) {
+                data_guild_config = await GuildConfig.create({guildId: server.id})
+            }
+            if (!data_guild_settings) {
+                data_guild_settings = await GuildSettings.create({guild_id: server.id})
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+
 
         var server_info_embed = new Discord.MessageEmbed()
             .setThumbnail(server.iconURL())
@@ -39,6 +59,8 @@ module.exports = {
             .addField("Roles", roleCount + " Roles", true)
             .addField("Categories", categoryCount + " Categories", true)
             .addField ("Members", userCount + " Members", true)
+            .addField ("Server Prefix", data_guild_config.prefix, true)
+            .addField("Welcome Channel", `<#${data_guild_settings.welcome_channel_id}>`)
 
 
 
