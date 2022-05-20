@@ -24,6 +24,36 @@ const GuildConfigSchema = new mongoose.Schema({
     moderatorRoles: Array,
     helperRoles: Array,
 
+    punishmentBan: {
+        type: mongoose.SchemaTypes.String,
+        required: true,
+        default: "8" //number of warn for trigger the ban punishment
+    },
+
+    punishmentKick: {
+        type: mongoose.SchemaTypes.String,
+        required: true,
+        default: "6", //number of warn for trigger the kick punishment
+    },
+
+    punishmentMute: {
+        type: mongoose.SchemaTypes.String,
+        required: true,
+        default: "4" //number of warn for trigger the mute punishment
+    },
+
+    punishmentTempmute: {
+        type: mongoose.SchemaTypes.String,
+        required: true, 
+        default: "3", //number of warn for trigger the tempmute punishment
+        time: {
+            type: mongoose.SchemaTypes.Number,
+            required: true,
+            default: 1800000 //30 minutes
+        },
+    }
+
+
 })
 
 module.exports = mongoose.model("GuildConfig", GuildConfigSchema);
