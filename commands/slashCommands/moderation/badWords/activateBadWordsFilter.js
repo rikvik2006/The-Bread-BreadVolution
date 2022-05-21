@@ -30,7 +30,7 @@ module.exports = {
         )
         .addSubcommand(subcommand =>
             subcommand
-                .setName("all_channel")
+                .setName("all_channels")
                 .setDescription("Activates the bad words filter for all channels")
         )
         .addSubcommand(subcommand =>
@@ -163,7 +163,7 @@ module.exports = {
 
             await interaction.reply({ embeds: [badwords_channel_list], ephemeral: true })
 
-        } else if (interaction.options.getSubcommand() === "all_channel") {
+        } else if (interaction.options.getSubcommand() === "all_channels") {
             if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
                 return no_permission("activate the bad words filter for all channels", "MANAGE MESSAGES")
             }
