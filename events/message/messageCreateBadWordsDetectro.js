@@ -9,33 +9,35 @@ module.exports = {
 
     async execute(message) {
 
-        let data
-
-        try {
-            data = await GuildConfig.findOne({guidlId: message.guild.id})
-
-            if (!data) {
-                data = await GuildConfig.create({guildId: message.guild.id})
-            }
-
-        } catch (err) {
-            console.log(err)
-        }
-
-        //ignore users with roles that are in the guildConfig database;
-        if (data.moderatorRoles.includes(message.member.roles.cache.first().id)) return
-
-
-
         var badWords = ["merda", "cazzo", "fuck", "shit"]
         let findBadWords = false
 
         badWords.forEach(word => {
-            if (message.content.includes(word)) 
-            findBadWords = true;
+            if (message.content.includes(word))
+                findBadWords = true;
         })
 
         if (findBadWords) {
+
+            let data
+
+            try {
+                data = await GuildConfig.findOne({ guidlId: message.guild.id })
+
+                if (!data) {
+                    data = await GuildConfig.create({ guildId: message.guild.id })
+                }
+
+            } catch (err) {
+                console.log(err)
+            }
+
+            if (!data.badWordsChannelAdd.includes(message.channel.id)) return
+
+            //ignore users with roles that are in the guildConfig database;
+            if (data.moderatorRoles.includes(message.member.roles.cache.first().id)) return
+
+
             const warinng = await WarnSchema.create({
                 userId: message.author.id,
                 staffId: message.client.user.id,
@@ -43,7 +45,7 @@ module.exports = {
                 warnId: uuidv4(),
                 reason: "Bad words detected",
             })
-             
+
 
             message.delete()
 
