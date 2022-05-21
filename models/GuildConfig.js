@@ -46,12 +46,14 @@ const GuildConfigSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.String,
         required: true, 
         default: "3", //number of warn for trigger the tempmute punishment
-        time: {
-            type: mongoose.SchemaTypes.Number,
-            required: true,
-            default: 1800000 //30 minutes
-        },
+    },
+
+    autoTempmuteTime: {
+        type: mongoose.SchemaTypes.Number,
+        required: true,
+        default: 1800000 //time in ms for the tempmute (30 minutes)
     }
+
 
 
 })
