@@ -30,6 +30,11 @@ module.exports = {
         )
         .addSubcommand(subcommand =>
             subcommand
+                .setName("all_channel")
+                .setDescription("Activates the bad words filter for all channels")
+        )
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName("list")
                 .setDescription("List all channels in the bad words filter")
         ),
@@ -158,6 +163,44 @@ module.exports = {
 
             await interaction.reply({ embeds: [badwords_channel_list], ephemeral: true })
 
+        } else if (interaction.options.getSubcommand() === "all_channel") {
+            if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                return no_permission("activate the bad words filter for all channels", "MANAGE MESSAGES")
+            }
+
+            let data
+
+            try {
+                data = await GuildConfig.findOne({ guildId: interaction.guild.id })
+
+                if (!data) {
+                    data = await GuildConfig.create({ guildId: interaction.guild.id })
+                }
+
+            } catch (err) {
+                console.log(err)
+            }
+
+            const allChannels = interaction.guild.channels.cache.filter(c => c.type == "GUILD_TEXT")
+            const allChannelsId = allChannels.map(c => c.id)
+
+            data.badWordsChannelAdd = allChannelsId
+
+            await data.save()
+
+            if (data.badWordsChannelAdd == allChannelsId) {
+                const channel_already_added = new Discord.MessageEmbed()
+                    .setColor("#F04848")
+                    .setDescription(`The bad words filter is already active for all channels!`)
+
+                return interaction.reply({ embeds: [channel_already_added], ephemeral: true })
+            }
+
+            const channel_added = new Discord.MessageEmbed()
+                .setColor("#2D2D2D")
+                .setDescription(`The bad words filter has been activated for all channels!`)
+
+            interaction.reply({ embeds: [channel_added], ephemeral: true })
         }
     }
 
