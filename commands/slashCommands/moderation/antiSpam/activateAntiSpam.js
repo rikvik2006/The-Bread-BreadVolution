@@ -78,8 +78,8 @@ module.exports = {
                 if (data.Channels.includes(channel.id)) return interaction.reply({
                     embeds: [
                         new Discord.MessageEmbed()
-                            .setColor("BLUE")
-                            .setDescription(`‼ - ${channel} is already added to Anti-spam system!`)
+                            .setColor("#F04848")
+                            .setDescription(`${channel} is already added to Anti-spam system!`)
                     ],
                     ephemeral: true
                 })
@@ -178,7 +178,7 @@ module.exports = {
 
                 if (channel !== "NOT SET YET") {
 
-                    channels = channel.map((c) => guild.channels.cache.get(c)).join(", ")
+                    channels = channel.map((c) => guild.channels.cache.get(c)).join(",\r")
 
                 } else {
 
@@ -190,7 +190,7 @@ module.exports = {
                     embeds: [
                         new Discord.MessageEmbed()
                             .setColor("BLUE")
-                            .setDescription(`✅ - The channels set in antispam system are: ${channels}`)
+                            .setDescription(`✅ - The channels set in antispam system are:\r ${channels}`)
                     ],
                     ephemeral: true
                 })
