@@ -30,6 +30,11 @@ module.exports = {
         )
         .addSubcommand(subcommand =>
             subcommand
+                .setName("all_channels")
+                .setDescription("Add all channels to the atispam system")
+        )
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName("list")
                 .setDescription("Lists all the channels where the anti spam system is checking for spammers")
         ),
@@ -43,7 +48,7 @@ module.exports = {
                 .setTitle("No permission")
                 .setDescription(`You don't have permission to ${action}`)
                 .addField("Permission", `\`\`\`${permission_needed}\`\`\``)
-            
+
             interaction.reply({ embeds: [no_permission_embed], ephemeral: true })
         }
 
@@ -154,7 +159,7 @@ module.exports = {
             } break;
 
             case "list": {
-                
+
 
                 if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
                     return no_permission("to watch a list of channel where the anti spam is activated", "MANAGE MESSAGES")
@@ -194,6 +199,47 @@ module.exports = {
                     ],
                     ephemeral: true
                 })
+
+            } break;
+
+            case "all_channels": {
+                if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                    return no_permission("activate the bad words filter for all channels", "MANAGE MESSAGES")
+                }
+
+                let data
+
+                try {
+                    data = await antiSpamSchema.findOne({ Guild: interaction.guild.id })
+
+                    if (!data) {
+                        data = await antiSpamSchema.create({ Guild: interaction.guild.id })
+                    }
+
+                } catch (err) {
+                    console.log(err)
+                }
+
+                const allChannels = interaction.guild.channels.cache.filter(c => c.type == "GUILD_TEXT")
+                const allChannelsId = allChannels.map(c => c.id)
+
+                data.Channels = allChannelsId
+
+                await data.save()
+
+                if (data.Channels == allChannelsId) {
+                    const channel_already_added = new Discord.MessageEmbed()
+                        .setColor("#F04848")
+                        .setDescription(`Anti Spam is already active for all channels!`)
+
+                    return interaction.reply({ embeds: [channel_already_added], ephemeral: true })
+                }
+
+                const channel_added = new Discord.MessageEmbed()
+                    .setColor("#2D2D2D")
+                    .setDescription(`Anti spam has been activated for all channels!`)
+
+                interaction.reply({ embeds: [channel_added], ephemeral: true })
 
             } break;
 
