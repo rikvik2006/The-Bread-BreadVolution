@@ -38,10 +38,11 @@ module.exports = {
                     spinner.success({ text: "Succefully registered commands globaly!"});
                 } else {
                     await rest.put(Routes.applicationGuildCommands(CLIENT_ID, process.env.GUILD_ID), {
-                        body: commands
+                        body: commands  //[]
                         
                     });
                     spinner.success({ text: "Succefully registered commands locally!"});
+                    // console.log(commands)
                 }
             } catch (err) {
                 if (err) console.error(err);

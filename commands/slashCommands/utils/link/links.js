@@ -4,7 +4,7 @@ const wait = require("node:timers/promises").setTimeout
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("link-social")
+        .setName("link_social")
         .setDescription("All social link like Discord, Twitter, etc."),
 
     async execute(interaction) {

@@ -4,7 +4,7 @@ const GuildConfig = require("../../../../models/GuildConfig");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("badwords-fiter")
+        .setName("badwords_filter")
         .setDescription("Activates the bad words filter")
         .addSubcommand(subcommand =>
             subcommand
