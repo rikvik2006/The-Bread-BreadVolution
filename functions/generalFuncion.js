@@ -9,11 +9,11 @@ function sendTestEmoji2(message) {
     message.reply("🍞")
 };
 
-global.yellow_bred = "#F9A62B";
+global.yellow_bread = "#F9A62B";
 
 global.grey_bread = "#2D2D2D"
 
-global.red_bred = "#F04848"
+global.red_bread = "#F04848"
 
 global.NotSoBluple = "#5866Ef"
 
