@@ -10,37 +10,37 @@ module.exports = {
 
 
         const ping_embed = new MessageEmbed()
-            .setColor("#0099ff")
-            .setTitle("Pong!")
-            .setDescription(rackets[Math.floor(Math.random() * rackets.length)])
+            .setColor("#2D2D2D")
+            .setAuthor({ name:`${interaction.user.tag} pong!`, iconURL: interaction.user.displayAvatarURL()})
+            // .setDescription(rackets[Math.floor(Math.random() * rackets.length)])
             // .setFooter(client.user.username,client.user.avatar)
 
-        const row = new MessageActionRow()
-            .addComponents(
-                new MessageButton()
-                    .setCustomId("ping")
-                    .setStyle("primary") 
-                    .setLabel("Ping"),
-                new MessageButton()
-                    .setCustomId("pong")
-                    .setStyle("SUCCESS")
-                    .setLabel("Pong")
-            )
+        // const row = new MessageActionRow()
+        //     .addComponents(
+        //         new MessageButton()
+        //             .setCustomId("ping")
+        //             .setStyle("primary") 
+        //             .setLabel("Ping"),
+        //         new MessageButton()
+        //             .setCustomId("pong")
+        //             .setStyle("SUCCESS")
+        //             .setLabel("Pong")
+        //     )
 
 
-        await interaction.reply({ content: "Pong", embeds: [ping_embed], ephemeral: true,  components:  [row]});
+        await interaction.reply({ embeds: [ping_embed], ephemeral: true});
         
 
-        const collector = interaction.channel.createMessageCollector()
+        // const collector = interaction.channel.createMessageComponentCollector()
 
-        collector.on("collect", async i => {
-            if (i.customId === "ping") {
-                await i.update({ content: "Pong", ephemeral: true, embeds: [], components: []})
-            }
-            if (i.customId === "pong") {
-                i.reply("Ping")
-            }
-        })
+        // collector.on("collect", async i => {
+        //     if (i.customId === "ping") {
+        //         await i.update({ content: "Pong", ephemeral: true, embeds: [], components: []})
+
+        //     } else if (i.customId === "pong") {
+        //         await i.folowUp("Ping")
+        //     }
+        // })
 
     }
 }
