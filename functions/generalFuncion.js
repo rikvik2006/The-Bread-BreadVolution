@@ -1,3 +1,6 @@
+const { readFileSync, promises: fsPromises } = require('fs');
+
+
 global.sendTestEmoji = function (message) {
     message.reply("🍞")
 }
@@ -39,4 +42,18 @@ global.DarkGrey = "#2f3136"
 global.NotQuiteBlack = "#23272a"
 
 
+global.asyncReadFile = async function (filename) {
+    try {
+        const contents = await fsPromises.readFile(filename, 'utf-8');
 
+        const arr = contents.split(/\r?\n/);
+
+        console.log(arr); // 👉️ ['One', 'Two', 'Three', 'Four']
+
+        return arr;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// asyncReadFile("../config/badWords/badWords.txt")
