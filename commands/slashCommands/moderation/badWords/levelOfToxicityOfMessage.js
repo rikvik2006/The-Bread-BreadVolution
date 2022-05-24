@@ -42,7 +42,7 @@ module.exports = {
 
                         // console.log(JSON.stringify(response.data, null, 2));
                         const obj = JSON.parse(JSON.stringify(response.data, null, 2));
-                        const toxicity = obj.attributeScores.TOXICITY.summaryScore.value * 100;
+                        const toxicity = (obj.attributeScores.TOXICITY.summaryScore.value * 100).toFixed(2);
 
                         const analyzed_message_toxicity_result = new Discord.MessageEmbed()
                             .setColor(grey_bread)
