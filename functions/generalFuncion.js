@@ -11,35 +11,35 @@ function sendTestEmoji2(message) {
 
 global.yellow_bread = "#F9A62B";
 
-global.grey_bread = "#2D2D2D"
+global.grey_bread = "#2D2D2D";
 
-global.red_bread = "#F04848"
+global.red_bread = "#F04848";
 
-global.NotSoBluple = "#5866Ef"
+global.NotSoBluple = "#5866Ef";
 
-global.OnlineGreen = "#3DA560"
+global.OnlineGreen = "#3DA560";
 
-global.IdleYellow = "#F9A62B"
+global.IdleYellow = "#F9A62B";
 
-global.DndRed = "#ec4145"
+global.DndRed = "#ec4145";
 
-global.BraveryPurple = "#9b84ec"
+global.BraveryPurple = "#9b84ec";
 
-global.BrillanceColar = "#f37b68"
+global.BrillanceColar = "#f37b68";
 
-global.BalanceTurqoise = "#49ddc1"
+global.BalanceTurqoise = "#49ddc1";
 
-global.NitroGrey = "#5f5d7e"
+global.NitroGrey = "#5f5d7e";
 
-global.BoostPink = "#f373f6"
+global.BoostPink = "#f373f6";
 
-global.StreammerPurple = "#583694"
+global.StreammerPurple = "#583694";
 
-global.HyperlinkBlue = "#09b9f2"
+global.HyperlinkBlue = "#09b9f2";
 
-global.DarkGrey = "#2f3136"
+global.DarkGrey = "#2f3136";
 
-global.NotQuiteBlack = "#23272a"
+global.NotQuiteBlack = "#23272a";
 
 
 global.asyncReadFile = async function (filename) {
