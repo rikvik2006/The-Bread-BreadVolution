@@ -47,6 +47,17 @@ module.exports = {
         )
         .addSubcommand(subcommand =>
             subcommand
+                .setName("remove_all")
+                .setDescription("Removes all warnings from the user")
+                .addUserOption(option =>
+                    option
+                        .setName("user")
+                        .setDescription("The user to remove all warnings from")
+                        .setRequired(true)
+                )
+        )
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName("list")
                 .setDescription("LIsts all warnings for the user")
                 .addUserOption(option =>
@@ -63,6 +74,7 @@ module.exports = {
         const user = interaction.options.getUser("user")
         const reason = interaction.options.getString("reason") || "No reason provided"
         const id = interaction.options.getString("id")
+        const member =  interaction.guild.members.cache.get(user.id)
 
         const no_permission = function (action, permission_needed) {
             const no_permission_embed = new Discord.MessageEmbed()
@@ -127,7 +139,7 @@ module.exports = {
 
             const warning = await WarnSchema.findOne({ warnId: id }).deleteOne()
 
-            
+
 
             const remove_warn_embed = new Discord.MessageEmbed()
                 .setAuthor({ name: `${member.tag} was been forgiven`, iconURL: member.displayAvatarURL() })
@@ -171,6 +183,52 @@ module.exports = {
                 return interaction.reply({ embeds: [warn_list] })
 
             }
+        } else if (interaction.options.getSubcommand() === "remove_all") {
+            if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                return no_permission("remove all warnings from this user", "MANAGE MESSAGES")
+            }
+
+            // const warnings = await WarnSchema.find({
+            //     userId: user?.id,
+            //     guildId: interaction.guild.id,
+            // })
+
+            // for (const warn of warnings) {
+            //     await warn.deleteOne()
+            // }
+
+            // let data
+
+            try {
+                data = await WarnSchema.find({ userId: user?.id, guildId: interaction.guild.id})
+
+                if (!data) {
+                    const no_warn_found_embed = new Discord.MessageEmbed()
+                        .setColor(red_bread)
+                        .setDescription("No warnings found for this user")
+
+                    return interaction.reply({ embeds: [no_warn_found_embed], epehmeral: true })
+                }
+
+            } catch (err) {
+                console.log(err)
+            }
+
+            let description = `The following warnings was been forgiven:\n\n`
+
+            for (const warn of data) {
+                await warn.deleteOne()
+                description += `**WarningID:** ${warn.warnId}\n`
+            }
+
+
+            const removed_all_warns_embed = new Discord.MessageEmbed()
+                .setColor(grey_bread)
+                .setAuthor({ name: `All warnings was been forgiven from ${member.tag}`, iconURL: member.displayAvatarURL() })
+                .setDescription(`**Moderator:** <@${interaction.user.id}>\n${description}`)
+
+            return interaction.reply({ embeds: [removed_all_warns_embed] })
+            
         }
     }
 }
