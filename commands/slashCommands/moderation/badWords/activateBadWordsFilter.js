@@ -145,7 +145,7 @@ module.exports = {
                 channels = channel.map((c) => interaction.guild.channels.cache.get(c)).join(",\r")
             } else {
 
-                channels = "NOT YET SET\r Use `/badwords-filter add` to add channels"
+                channels = "NOT YET SET\r Use `/badwords_filter add` to add channels"
             }
 
             const badwords_channel_list = new Discord.MessageEmbed()
@@ -157,7 +157,7 @@ module.exports = {
                 .setDescription("There are no channels set in the bad words filter!")
 
 
-            if (channels == "NONE") {
+            if (channel == "NONE") {
                 return interaction.reply({ embeds: [badwords_any_channel_list], ephemeral: true })
             }
 
@@ -188,13 +188,6 @@ module.exports = {
 
             await data.save()
 
-            if (data.badWordsChannelAdd == allChannelsId) {
-                const channel_already_added = new Discord.MessageEmbed()
-                    .setColor("#F04848")
-                    .setDescription(`The bad words filter is already active for all channels!`)
-
-                return interaction.reply({ embeds: [channel_already_added], ephemeral: true })
-            }
 
             const channel_added = new Discord.MessageEmbed()
                 .setColor("#2D2D2D")
