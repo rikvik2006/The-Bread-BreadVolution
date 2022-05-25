@@ -3,34 +3,48 @@ const { google } = require("googleapis");
 const GuildConfig = require("../../../models/GuildConfig");
 const { v4: uuidv4 } = require('uuid');
 const WarnSchema = require("../../../models/WarnSchema");
-
+const {readFileSync, promises: fsPromises} = require('fs');
 
 module.exports = {
     name: "messageCreate",
 
     async execute(message) {
 
-        badWords.forEach(word => {
-            if (message.content.includes(word)) {
-                return
-            } 
-        })
+        function syncReadFile(filename) {
+            const contents = readFileSync(filename, 'utf-8');
+
+            const badWords = contents.split(/\r?\n/);
+
+            console.log(badWords);
+
+            return badWords;
+        }
+
+        // syncReadFile("../../../config/badWords/badWords.txt");
+
+
+
+        // badWords.forEach(word => {
+        //     if (message.content.includes(word)) {
+        //         return
+        //     }
+        // })
 
         let data
-        
+
         try {
-            data = await GuildConfig.findOne({guildId: message.guild.id});
+            data = await GuildConfig.findOne({ guildId: message.guild.id });
         } catch (err) {
             console.log(err)
         }
-        
+
 
         if (!data.toxicsDetectorChannel.includes(message.channelId)) return
 
         let text = message.content;
 
         google.discoverAPI(process.env.DISCOVERY_URL)
-            .then (client => {
+            .then(client => {
                 const analyzeRequest = {
                     comment: {
                         text: text,
