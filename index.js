@@ -126,16 +126,16 @@ for (const file of functionFile) {
 //  Database Connection
 //************************/
 
-global.mysql = require("mysql");
+// global.mysql = require("mysql");
 
 
-global.con = mysql.createConnection({
-    host: "breaddatabase.ddns.net",
-    port: 3306,
-    user: "PC_Portatile",
-    password: process.env.password_BreadDataBase,
-    database: "Bread_DataBase"
+// global.con = mysql.createConnection({
+//     host: "breaddatabase.ddns.net",
+//     port: 3306,
+//     user: "PC_Portatile",
+//     password: process.env.password_BreadDataBase,
+//     database: "Bread_DataBase"
 
-})
+// })
 
-con.connect();
+// con.connect();
