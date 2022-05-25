@@ -8,7 +8,6 @@ module.exports = {
     async execute(interaction) {
         const rackets = ["🪑", "💺", "🏓", "🗑️", "🍝", "🍞", "🥖", "🥪", "🥯", "🐕", "🎮"];
 
-
         const ping_embed = new MessageEmbed()
             .setColor("#2D2D2D")
             .setAuthor({ name:`${interaction.user.tag} pong!`, iconURL: interaction.user.displayAvatarURL()})
@@ -41,6 +40,9 @@ module.exports = {
         //         await i.folowUp("Ping")
         //     }
         // })
+
+
+    
 
     }
 }
