@@ -26,7 +26,6 @@ module.exports = {
                         .setDescription("The reason for the warn")
                         .setRequired(false)
                 )
-
         )
         .addSubcommand(subcommand =>
             subcommand
@@ -106,6 +105,7 @@ module.exports = {
 
 
             const add_warn_embed = new Discord.MessageEmbed()
+                .setColor("#2D2D2D")
                 .setAuthor({ name: `${user.tag} as been warned`, iconURL: user.displayAvatarURL() })
                 .setDescription(`**WarningID:** ${warinng.warnId}\n**Reason:** ${reason}\n**Moderator:** <@${interaction.member.id}>`)
 
@@ -188,17 +188,6 @@ module.exports = {
                 return no_permission("remove all warnings from this user", "MANAGE MESSAGES")
             }
 
-            // const warnings = await WarnSchema.find({
-            //     userId: user?.id,
-            //     guildId: interaction.guild.id,
-            // })
-
-            // for (const warn of warnings) {
-            //     await warn.deleteOne()
-            // }
-
-            // let data
-
             try {
                 data = await WarnSchema.find({ userId: user?.id, guildId: interaction.guild.id})
 
@@ -221,13 +210,13 @@ module.exports = {
                 description += `**WarningID:** ${warn.warnId}\n`
             }
 
-
             const removed_all_warns_embed = new Discord.MessageEmbed()
                 .setColor(grey_bread)
                 .setAuthor({ name: `All warnings was been forgiven from ${member.tag}`, iconURL: member.displayAvatarURL() })
                 .setDescription(`**Moderator:** <@${interaction.user.id}>\n${description}`)
 
-            return interaction.reply({ embeds: [removed_all_warns_embed] })
+            return interaction.reply({ embeds: [removed_all_warns_embed] }) 
+
             
         }
     }
