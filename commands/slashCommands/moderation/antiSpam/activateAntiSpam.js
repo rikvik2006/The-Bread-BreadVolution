@@ -95,8 +95,8 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new Discord.MessageEmbed()
-                            .setColor("BLUE")
-                            .setDescription(`✅ - ${channel} is successfully added to Anti-spam system`)
+                            .setColor("#2D2D2D")
+                            .setDescription(`${channel} is successfully added to Anti-spam system`)
                     ],
                     ephemeral: true
                 })
@@ -133,8 +133,8 @@ module.exports = {
                 if (!data.Channels.includes(channel.id)) return interaction.reply({
                     embeds: [
                         new Discord.MessageEmbed()
-                            .setColor("BLUE")
-                            .setDescription(`‼ - ${channel} is not even added to Anti-spam system!`)
+                            .setColor(read_bread)
+                            .setDescription(`${channel} is not even added to Anti-spam system!`)
                     ],
                     ephemeral: true
                 })
@@ -150,8 +150,8 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new Discord.MessageEmbed()
-                            .setColor("BLUE")
-                            .setDescription(`✅ - ${channel} is successfully deleted from Anti-spam system`)
+                            .setColor("#2D2D2D")
+                            .setDescription(`${channel} is successfully deleted from Anti-spam system`)
                     ],
                     ephemeral: true
                 })
