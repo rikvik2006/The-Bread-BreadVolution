@@ -73,7 +73,6 @@ module.exports = {
         const user = interaction.options.getUser("user")
         const reason = interaction.options.getString("reason") || "No reason provided"
         const id = interaction.options.getString("id")
-        const member =  interaction.guild.members.cache.get(user.id)
 
         const no_permission = function (action, permission_needed) {
             const no_permission_embed = new Discord.MessageEmbed()
@@ -133,15 +132,20 @@ module.exports = {
                 console.log(err)
             }
 
-            const remove_warn_user = data.userId
+            const remove_warn_user = data.userId.toString()
+
+            console.log(remove_warn_user)
 
             const member = interaction.guild.members.cache.get(remove_warn_user)
+
+        
 
             const warning = await WarnSchema.findOne({ warnId: id }).deleteOne()
 
 
 
             const remove_warn_embed = new Discord.MessageEmbed()
+                .setColor("#2D2D2D")
                 .setAuthor({ name: `${member.tag} was been forgiven`, iconURL: member.displayAvatarURL() })
                 .setDescription(`**WarningID:** ${id}\n**Moderator:** <@${interaction.member.id}>`)
 
@@ -184,6 +188,9 @@ module.exports = {
 
             }
         } else if (interaction.options.getSubcommand() === "remove_all") {
+            const member =  interaction.guild.members.cache.get(user.id)
+
+        
             if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
                 return no_permission("remove all warnings from this user", "MANAGE MESSAGES")
             }
