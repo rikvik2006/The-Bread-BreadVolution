@@ -1,6 +1,7 @@
+require("dotenv").config();
 global.Discord = require('discord.js');
 global.client = new Discord.Client({
-    intents: new Discord.Intents(131069), //All: 131069
+    intents: new Discord.Intents(process.env.INTENTS), //All: 131071
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
 const path = require("path")
@@ -13,7 +14,6 @@ const db = new Database();
 db.connect();
 
 
-require("dotenv").config();
 
 
 client.login(process.env.TOKEN);
