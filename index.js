@@ -1,6 +1,6 @@
 global.Discord = require('discord.js');
 global.client = new Discord.Client({
-    intents: new Discord.Intents(131069), //All: 131071
+    intents: new Discord.Intents(131069), //All: 131069
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
 const path = require("path")
