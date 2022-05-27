@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
 const antispamSchema = require('../../models/AntiSpam');
 const map = new Map()
+const GuildConfig = require("../../models/GuildConfig")
+const WarnSchema = require("../../models/WarnSchema")
+const { v4: uuidv4 } = require('uuid');
 
 
 module.exports = {
@@ -73,11 +76,23 @@ module.exports = {
 
                         })
 
+                        const warning = await WarnSchema.create({
+                            userId: message.author.id,
+                            staffId: message.client.user.id,
+                            guildId: message.guild.id,
+                            warnId: uuidv4(),
+                            reason: "Spamming detected",
+                        })
+
                         message.reply({
                             embeds: [
                                 new Discord.MessageEmbed()
                                     .setAuthor({name: `${message.author.username}#${message.author.discriminator}`, iconURL: message.author.displayAvatarURL()})
-                                    .setDescription("Has been timed out for spamming!")
+                                    .setDescription(`Has been timed out for spamming!\n
+                                    **WarningID:** ${warning.warnId}\n
+                                    **Reason:** ${warning.reason}\n
+                                    **Moderator:** <@${message.client.user.id}>`)
+                                    
                                     
                             ]
                         })
