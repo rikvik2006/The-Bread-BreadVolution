@@ -9,7 +9,7 @@ module.exports = {
 
     async execute(message) {
 
-        var badWords = ["merda", "cazzo", "fuck", "shit"]
+        var badWords = ["merda", "cazzo", "fuck", "shit", "asshole"]
         let findBadWords = false
 
         badWords.forEach(word => {
