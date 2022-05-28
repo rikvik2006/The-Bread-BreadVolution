@@ -35,7 +35,7 @@ module.exports = {
         }
 
 
-        if (!data.toxicsDetectorChannel.includes(message.channelId)) return (console.log("ok"))
+        if (!data.toxicsDetectorChannel.includes(message.channelId)) return
 
         let text = message.content;
 
