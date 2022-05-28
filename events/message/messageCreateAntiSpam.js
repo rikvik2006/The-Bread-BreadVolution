@@ -14,10 +14,13 @@ module.exports = {
         if (message.author.bot || !message.guild) return
 
         let channelData
+        let GuildConfigData
 
         try {
 
             channelData = await antispamSchema.findOne({ Guild: message.guild.id })
+
+            GuildConfigData = await GuildConfig.findOne({ guildId: message.guild.id })
 
             if (!channelData) {
                 channelData = await antispamSchema.create({ Guild: message.guild.id })
@@ -28,6 +31,8 @@ module.exports = {
             console.log(err)
 
         }
+
+        if (GuildConfigData.moderatorRoles.includes(message.member.roles.cache.first().id)) return console.log("mod")
 
         if (channelData.Channels.some(chn => chn === message.channel.id)) {
 
@@ -56,7 +61,7 @@ module.exports = {
 
                 } else {
 
-        
+
                     const reason = "The user has sent a series of messages with an interval of less than 2 seconds"
 
                     ++msgs
@@ -66,7 +71,9 @@ module.exports = {
 
                         const member = message.guild.members.cache.get(message.author.id)
 
-                        member.timeout(1 * 60 * 1000, reason).catch(err => {
+                        const timeOutMultiplier = GuildConfigData.antiSpamTimeOut
+
+                        member.timeout(1 * timeOutMultiplier * 1000, reason).catch(err => {
 
                             if (err) {
 
@@ -75,6 +82,8 @@ module.exports = {
                             }
 
                         })
+                        
+                        await message.channel.bulkDelete(5, true)
 
                         const warning = await WarnSchema.create({
                             userId: message.author.id,
@@ -84,16 +93,12 @@ module.exports = {
                             reason: "Spamming detected",
                         })
 
-                        message.reply({
+                        message.channel.send({
                             embeds: [
                                 new Discord.MessageEmbed()
-                                    .setAuthor({name: `${message.author.username}#${message.author.discriminator}`, iconURL: message.author.displayAvatarURL()})
-                                    .setDescription(`Has been timed out for spamming!\n
-                                    **WarningID:** ${warning.warnId}\n
-                                    **Reason:** ${warning.reason}\n
-                                    **Moderator:** <@${message.client.user.id}>`)
-                                    
-                                    
+                                    .setColor("#2d2d2d")
+                                    .setAuthor({ name: `${message.author.username}#${message.author.discriminator}`, iconURL: message.author.displayAvatarURL() })
+                                    .setDescription(`Has been timed out for spamming!\n**WarningID:** ${warning.warnId}\n**Reason:** ${warning.reason}\n**Moderator:** <@${message.client.user.id}>`)
                             ]
                         })
 
