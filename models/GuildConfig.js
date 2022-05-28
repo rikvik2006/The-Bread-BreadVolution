@@ -66,6 +66,12 @@ const GuildConfigSchema = new mongoose.Schema({
         default: [],
     },
 
+    antiSpamTimeOut: { //time out seconds
+        type: mongoose.SchemaTypes.Number,
+        required: true,
+        default: 1800,  //1,8 seconds, but i moltiply this for 1000 so the resoult is 1800000 (30 minutes)
+    }
+
 
 
 })
