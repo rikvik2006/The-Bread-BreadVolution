@@ -54,9 +54,17 @@ const GuildConfigSchema = new mongoose.Schema({
         default: 1800000 //time in ms for the tempmute (30 minutes)
     },
 
-    badWordsChannelAdd: Array,
+    badWordsChannelAdd: {
+        type: Array,
+        required: true,
+        default: [],
+    },
 
-    toxicsDetectorChannel: Array,
+    toxicsDetectorChannel: {
+        type: Array,
+        required: true,
+        default: [],
+    },
 
 
 
