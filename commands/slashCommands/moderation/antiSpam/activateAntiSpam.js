@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 const Discord = require('discord.js')
 const antiSpamSchema = require('../../../../models/AntiSpam')
+const GuildConfig = require("../../../../models/GuildConfig")
+const ms = require("ms")
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -37,6 +39,17 @@ module.exports = {
             subcommand
                 .setName("list")
                 .setDescription("Lists all the channels where the anti spam system is checking for spammers")
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName("set_time_out")
+                .setDescription("Spammers will timeout born for the amount of time entered (default 30 minutes)")
+                .addStringOption(option =>
+                    option
+                        .setName("time")
+                        .setDescription("The amount of time in minutes the spammer will be timeouted")
+                        .setRequired(true)
+                )
         ),
 
     async execute(interaction, client) {
@@ -241,6 +254,35 @@ module.exports = {
 
                 interaction.reply({ embeds: [channel_added], ephemeral: true })
 
+            } break;
+
+            case "set_time_out": {
+                if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                    return no_permission("set the timeout that will be given to spammers", "MANAGE MESSAGES")
+                }
+
+                const time = ms(interaction.options.getString("time"))
+
+                let data
+
+                try {
+                    data = await GuildConfig.findOne({ guildId: interaction.guild.id })
+                    if (!data) {
+                        data = await GuildConfig.create({ guildId: interaction.guild.id })
+                    }
+                } catch (err) {
+                    console.log(err)
+                }
+                
+                console.log(time)
+
+                await data.antiSpamTimeOut.create(time.toString())
+
+                const timeOutSet_embed = new Discord.MessageEmbed()
+                    .setColor("#2d2d2d")
+                    .setDescription(`Now spammers will be time outed with a penalty of \`${time}\``)     
+
+                interaction.reply({ embeds: [timeOutSet_embed], ephemeral: true })
             } break;
 
 
