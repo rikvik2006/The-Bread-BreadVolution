@@ -73,7 +73,7 @@ module.exports = {
 
                         const timeOutMultiplier = GuildConfigData.antiSpamTimeOut
 
-                        member.timeout(1 * timeOutMultiplier * 1000, reason).catch(err => {
+                        member.timeout(timeOutMultiplier, reason).catch(err => {
 
                             if (err) {
 

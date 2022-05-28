@@ -47,7 +47,7 @@ module.exports = {
                 .addStringOption(option =>
                     option
                         .setName("time")
-                        .setDescription("The amount of time in minutes the spammer will be timeouted")
+                        .setDescription("The amount of time in minutes the spammer will be timeouted (eg: 10m = 10 minutes, 5h = 5 hours)")
                         .setRequired(true)
                 )
         ),
@@ -261,7 +261,9 @@ module.exports = {
                     return no_permission("set the timeout that will be given to spammers", "MANAGE MESSAGES")
                 }
 
-                const time = ms(interaction.options.getString("time"))
+                const time = interaction.options.getString("time")
+
+                const msTime = ms(time)
 
                 let data
 
@@ -274,9 +276,10 @@ module.exports = {
                     console.log(err)
                 }
                 
-                console.log(time)
+                console.log(msTime)
 
-                await data.antiSpamTimeOut.create(time.toString())
+                data.antiSpamTimeOut = msTime
+                await data.save()
 
                 const timeOutSet_embed = new Discord.MessageEmbed()
                     .setColor("#2d2d2d")
