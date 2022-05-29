@@ -32,7 +32,7 @@ module.exports = {
 
         }
 
-        if (GuildConfigData.moderatorRoles.includes(message.member.roles.cache.first().id)) return console.log("mod")
+        // if (GuildConfigData.moderatorRoles.includes(message.member.roles.cache.first().id)) return console.log("mod")
 
         if (channelData.Channels.some(chn => chn === message.channel.id)) {
 

@@ -42,7 +42,7 @@ module.exports = {
             if (!data.badWordsChannelAdd.includes(message.channel.id)) return
 
             //ignore users with roles that are in the guildConfig database;
-            if (data.moderatorRoles.includes(message.member.roles.cache.first().id)) return
+            // if (data.moderatorRoles.includes(message.member.roles.cache.first().id)) return
 
 
             const warinng = await WarnSchema.create({

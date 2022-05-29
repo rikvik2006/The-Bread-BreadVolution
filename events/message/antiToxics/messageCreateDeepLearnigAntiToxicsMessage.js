@@ -33,7 +33,7 @@ module.exports = {
         } catch (err) {
             console.log(err)
         }
-        if (data.moderatorRoles.includes(message.member.roles.cache.first().id)) return 
+        // if (data.moderatorRoles.includes(message.member.roles.cache.first().id)) return 
 
 
         if (!data.toxicsDetectorChannel.includes(message.channelId)) return
