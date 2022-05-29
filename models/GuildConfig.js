@@ -70,7 +70,13 @@ const GuildConfigSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.Number,
         required: true,
         default: 1800000,  //30 minutes
-    }
+    },
+
+    toxicPercentage: {
+        type: mongoose.SchemaTypes.Number,
+        required: true,
+        default: 90,
+    },
 
 
 
