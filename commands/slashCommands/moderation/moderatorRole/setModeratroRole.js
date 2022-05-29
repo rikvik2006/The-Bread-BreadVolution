@@ -84,7 +84,7 @@ module.exports = {
 
             const added_to_list = new Discord.MessageEmbed()
                 .setColor("#2D2D2D")
-                .setDescription(`The role ${role} has been added to the moderator role list`);
+                .setDescription(`The role ${role} has been added to the moderator role list.\nAll users who have this role will be immune to the bot's restrictions. So be careful what you add`);
 
             interaction.reply({ embeds: [added_to_list], ephemeral: true });
 
@@ -166,9 +166,9 @@ module.exports = {
             }
 
             const list_of_roles = new Discord.MessageEmbed()
-                .setTitle("Moderator roles")
+                .setAuthor({name: `${interaction.guild.name} moderator roles`, iconURL: interaction.guild.iconURL()})
                 .setColor("#2D2D2D")
-                .setDescription(`${data.moderatorRoles.map(role => `<@&${role}>`).join("\n")}`);
+                .setDescription(`All users who have this role will be immune to the bot's restrictions. So be careful what you add\n\n**List of role**\n\n${data.moderatorRoles.map(role => `<@&${role}>`).join("\n")}`);
 
             interaction.reply({ embeds: [list_of_roles], ephemeral: true });
 
