@@ -37,6 +37,17 @@ module.exports = {
             subcommand
                 .setName("list")
                 .setDescription("A list with all the channels where the toxic detector is activated")
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName("toxic_percentage")
+                .setDescription("Set the level that a message must pass to be considered toxic")
+                .addNumberOption(option =>
+                    option
+                        .setName("percentage")
+                        .setDescription("The field must be filled in only with the desired number, no symbols")
+                        .setRequired(true)
+                )
         ),
 
     async execute(interaction) {
@@ -179,6 +190,41 @@ module.exports = {
                 .setDescription(`Channels were is active the toxic detector are:\r ${channels}`)
 
             await interaction.reply({ embeds: [badwords_channel_list], ephemeral: true })
+        } else if (interaction.options.getSubcommand() === "toxic_percentage") {
+            if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                return no_permission("hange the percentage to deem a toxic message", "MANAGE MESSAGES")
+            }
+
+            const percentage = interaction.options.getNumber("percentage")
+
+            let data 
+
+            try{
+                data = await GuildConfig.findOne({ guildId: interaction.guild.id })
+
+                if (!data) {
+                    data = await GuildConfig.create({ guildId: interaction.guild.id })
+                }
+            } catch (err) {
+                console.log(err)
+            }
+            
+            console.log(percentage)
+
+            data.toxicPercentage = percentage
+            await data.save()
+
+            const change_toxic_percentage_warning = new Discord.MessageEmbed()
+                .setDescription("ATTENTION, IF YOU HAVE JUST CHANGED THE PERCENTAGE OF THE TOXIC DETECTOR, WE RECOMMEND TESTING THE NEW PERCENTAGE WITH THE `/toxic_analyze` COMMAND IF YOU ARE NOT SATISFIED WITH YOUR NEW CHOICE, YOU CAN RESET IT AS DEFAULT.\rDEFAULT VALUE IS 90%")
+                .setColor(yellow_bread)
+        
+            const change_toxic_percentage = new Discord.MessageEmbed()
+                .setColor("#2d2d2d")
+                .setDescription(`Now the prentage of the toxic detector is \`${percentage}%\``)
+            
+
+            interaction.reply({ embeds: [change_toxic_percentage_warning, change_toxic_percentage], ephemeral: true })
+
         }
     }
 }

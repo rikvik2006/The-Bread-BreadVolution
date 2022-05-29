@@ -33,6 +33,7 @@ module.exports = {
         } catch (err) {
             console.log(err)
         }
+        if (data.moderatorRoles.includes(message.member.roles.cache.first().id)) return 
 
 
         if (!data.toxicsDetectorChannel.includes(message.channelId)) return
@@ -63,7 +64,12 @@ module.exports = {
                         const toxicity = Math.ceil(obj.attributeScores.TOXICITY.summaryScore.value * 100);
 
 
-                        if (toxicity >= 90) {
+                        const toxic_percentage = data.toxicPercentage
+
+                        // console.log(toxic_percentage)
+
+
+                        if (toxicity >= toxic_percentage) {
                             message.delete()
                             const warinng = await WarnSchema.create({
                                 userId: message.author?.id,
