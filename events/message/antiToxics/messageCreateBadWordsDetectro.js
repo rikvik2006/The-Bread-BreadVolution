@@ -13,10 +13,16 @@ module.exports = {
 
         let findBadWords = false
 
-        badWords.forEach(word => {
-            if (message.content.includes(word))
+        const messageContent = message.content.toLowerCase().split(" ")
+
+        let wordsUsed = []
+
+        messageContent.forEach(word => {
+            if (badWords.includes(word)) {
+                wordsUsed.push(word)
                 findBadWords = true;
-        })
+            }
+        });
 
         if (findBadWords) {
 
