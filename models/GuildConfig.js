@@ -21,7 +21,11 @@ const GuildConfigSchema = new mongoose.Schema({
         required: false,
     },
 
-    moderatorRoles: Array,
+    moderatorRoles: {
+        type: mongoose.SchemaTypes.Array,
+        required: true,
+        default: [],
+    },
     helperRoles: Array,
 
     punishmentBan: {
