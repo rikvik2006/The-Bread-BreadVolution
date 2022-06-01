@@ -15,9 +15,11 @@ module.exports = {
 
         const messageContent = message.content.toLowerCase().split(" ")
 
+        console.log(messageContent)
+
         let wordsUsed = []
 
-        messageContent.forEach(word => {
+        messageContent.some(word => {
             if (badWords.includes(word)) {
                 findBadWords = true;
                 wordsUsed.push(word)
