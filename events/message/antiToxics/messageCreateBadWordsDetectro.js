@@ -19,8 +19,8 @@ module.exports = {
 
         messageContent.forEach(word => {
             if (badWords.includes(word)) {
-                wordsUsed.push(word)
                 findBadWords = true;
+                wordsUsed.push(word)
             }
         });
 
