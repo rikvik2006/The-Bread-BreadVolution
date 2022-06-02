@@ -14,6 +14,7 @@ module.exports = {
         if (message.author.bot) return;
 
         if (badWords.some(word => message.content.toLowerCase().includes(word) )) {
+            console.log(message.guild.id)
             let data
 
             try {
