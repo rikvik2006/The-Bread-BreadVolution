@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
 const { v4: uuidv4 } = require('uuid');
 const WarnSchema = require("../../../models/WarnSchema");
 const GuildConfig = require("../../../models/GuildConfig")
@@ -28,7 +27,9 @@ module.exports = {
                 console.log(err)
             }
 
-            if (!data.badWordsChannelAdd.includes(message.channel.id)) return
+            console.log(data)
+
+            if (!data.badWordsChannelAdd.includes(message.channel.id)) return 
 
             //ignore users with roles that are in the guildConfig database;
             // if (data.moderatorRoles.includes(message.member.roles.cache.first().id)) return
