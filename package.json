@@ -4,7 +4,7 @@
   "description": "The new version of bread has arrived. Created with discord js version 13. New commands, implemented slash commands and created warns which had been under maintenance for 2 years ;D. This is the Bread Bread Volution",
   "main": "index.js",
   "engines": {
-    "node": "18.x"
+    "node": "16.15.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
