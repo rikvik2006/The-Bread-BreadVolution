@@ -18,7 +18,7 @@ module.exports = {
             let data
 
             try {
-                data = await GuildConfig.findOne({ guidlId: message.guild.id })
+                data = await GuildConfig.findOne({ guildId: message.guild.id })
 
                 if (!data) {
                     data = await GuildConfig.create({ guildId: message.guild.id })
