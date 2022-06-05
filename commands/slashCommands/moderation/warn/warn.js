@@ -178,9 +178,11 @@ module.exports = {
                 return interaction.reply({ embeds: [no_warns_embed] })
             } else {
 
+                let sub_description = description.substr(9)
+
                 const warn_list = new Discord.MessageEmbed()
                     .setAuthor({ name: `${user.tag}'s warnings`, iconURL: user.displayAvatarURL() })
-                    .setDescription(description)
+                    .setDescription(sub_description)
                     .setColor("#2D2D2D")
 
                 return interaction.reply({ embeds: [warn_list] })
@@ -197,7 +199,7 @@ module.exports = {
             try {
                 data = await WarnSchema.find({ userId: user?.id, guildId: interaction.guild.id})
 
-                if (!data) {
+                if (data.length === 0) {
                     const no_warn_found_embed = new Discord.MessageEmbed()
                         .setColor(red_bread)
                         .setDescription("No warnings found for this user")
