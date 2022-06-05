@@ -15,6 +15,7 @@ module.exports = {
                         .setName("channel")
                         .setDescription("The channel where the toxic detector will be activated")
                         .setRequired(true)
+                        .addChannelTypes([0])
                 )
         )
         .addSubcommand(subcommand =>
@@ -26,6 +27,7 @@ module.exports = {
                         .setName("channel")
                         .setDescription("The channel where the toxic detector will be deactivated")
                         .setRequired(true)
+                        .addChannelTypes([0])
                 )
         )
         .addSubcommand(subcommand =>
@@ -197,9 +199,9 @@ module.exports = {
 
             const percentage = interaction.options.getNumber("percentage")
 
-            let data 
+            let data
 
-            try{
+            try {
                 data = await GuildConfig.findOne({ guildId: interaction.guild.id })
 
                 if (!data) {
@@ -208,7 +210,7 @@ module.exports = {
             } catch (err) {
                 console.log(err)
             }
-            
+
             console.log(percentage)
 
             data.toxicPercentage = percentage
@@ -217,11 +219,11 @@ module.exports = {
             const change_toxic_percentage_warning = new Discord.MessageEmbed()
                 .setDescription("ATTENTION, IF YOU HAVE JUST CHANGED THE PERCENTAGE OF THE TOXIC DETECTOR, WE RECOMMEND TESTING THE NEW PERCENTAGE WITH THE `/toxic_analyze` COMMAND IF YOU ARE NOT SATISFIED WITH YOUR NEW CHOICE, YOU CAN RESET IT AS DEFAULT.\rDEFAULT VALUE IS 90%")
                 .setColor(yellow_bread)
-        
+
             const change_toxic_percentage = new Discord.MessageEmbed()
                 .setColor("#2d2d2d")
                 .setDescription(`Now the prentage of the toxic detector is \`${percentage}%\``)
-            
+
 
             interaction.reply({ embeds: [change_toxic_percentage_warning, change_toxic_percentage], ephemeral: true })
 

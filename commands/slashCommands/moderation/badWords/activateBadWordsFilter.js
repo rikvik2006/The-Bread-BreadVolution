@@ -15,6 +15,7 @@ module.exports = {
                         .setName("channel")
                         .setDescription("The channel where the bad words filter will check for bad words")
                         .setRequired(true)
+                        .addChannelTypes([0])
                 )
         )
         .addSubcommand(subcommand =>
@@ -26,6 +27,7 @@ module.exports = {
                         .setName("channel")
                         .setDescription("The channel to remove from the bad words filter")
                         .setRequired(true)
+                        .addChannelTypes([0])
                 )
         )
         .addSubcommand(subcommand =>

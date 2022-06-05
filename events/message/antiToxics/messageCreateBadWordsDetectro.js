@@ -51,6 +51,7 @@ module.exports = {
                 .setDescription(`**WarningID:** ${warinng.warnId}\n**Reason:** ${warinng.reason}\n**Moderator:** <@${message.client.user.id}>`)
 
             return message.channel.send({ embeds: [add_warn_embed] })
+            
         }
 
     }
