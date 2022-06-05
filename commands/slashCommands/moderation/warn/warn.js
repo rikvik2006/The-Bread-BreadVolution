@@ -132,9 +132,8 @@ module.exports = {
                 console.log(err)
             }
 
-            const remove_warn_user = data.userId.toString()
 
-            console.log(remove_warn_user)
+            const remove_warn_user = data.userId.toString()
 
             const member = interaction.guild.members.cache.get(remove_warn_user)
 
@@ -146,7 +145,7 @@ module.exports = {
 
             const remove_warn_embed = new Discord.MessageEmbed()
                 .setColor("#2D2D2D")
-                .setAuthor({ name: `${member.tag} was been forgiven`, iconURL: member.displayAvatarURL() })
+                .setAuthor({ name: `${member.user.tag} was been forgiven`, iconURL: member.displayAvatarURL() })
                 .setDescription(`**WarningID:** ${id}\n**Moderator:** <@${interaction.member.id}>`)
 
             return interaction.reply({ embeds: [remove_warn_embed] })
