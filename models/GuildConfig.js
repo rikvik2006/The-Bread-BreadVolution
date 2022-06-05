@@ -22,7 +22,7 @@ const GuildConfigSchema = new mongoose.Schema({
     },
 
     moderatorRoles: {
-        type: mongoose.SchemaTypes.Array,
+        type: Array,
         required: true,
         default: [],
     },
