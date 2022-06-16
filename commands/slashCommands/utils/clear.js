@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -47,15 +48,30 @@ module.exports = {
         }
 
         const messages_deleted_embed = new Discord.MessageEmbed()
-            .setDescription(`Deleted ${ammount} messages (This message will be automatically deleted
-                )`)
+            .setDescription(`Deleted ${ammount} messages (This message will be automatically deleted)`)
             .setColor("#2D2D2D")
 
-        // await interaction.deleteReply(ammount, true)/
-        await interaction.reply({ embeds: [messages_deleted_embed] })
-        setTimeout(function() {
-            interaction.deleteReply()
-        }, 3000);
+        if (ammount === 0) {
+            const message_deleted_0 = new Discord.MessageEmbed()
+                .setDescription("Why you want to delete 0 messages?")
+                .setColor(red_bread)
+
+            return interaction.reply({ embeds: [message_deleted_0], ephemeral: true })
+        }
+
+        try {
+            await interaction.channel.bulkDelete(ammount).then(() => {
+                interaction.reply({ embeds: [messages_deleted_embed] })
+                wait(4000).then(() => {
+                    interaction.deleteReply()
+                })
+            });
+        } catch (err) {
+            const message_too_old = new Discord.MessageEmbed()
+                .setColor(red_bread)
+                .setDescription("I can't delete message that is older than 2 weeks")
+            interaction.reply({ embeds: [message_too_old], ephemeral: true })
+        }
 
 
     }
