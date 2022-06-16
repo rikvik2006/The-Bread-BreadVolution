@@ -137,7 +137,7 @@ module.exports = {
 
             const member = interaction.guild.members.cache.get(remove_warn_user)
 
-        
+
 
             const warning = await WarnSchema.findOne({ warnId: id }).deleteOne()
 
@@ -189,15 +189,15 @@ module.exports = {
 
             }
         } else if (interaction.options.getSubcommand() === "remove_all") {
-            const member =  interaction.guild.members.cache.get(user.id)
+            const member = interaction.guild.members.cache.get(user.id)
 
-        
+
             if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
                 return no_permission("remove all warnings from this user", "MANAGE MESSAGES")
             }
 
             try {
-                data = await WarnSchema.find({ userId: user?.id, guildId: interaction.guild.id})
+                data = await WarnSchema.find({ userId: user?.id, guildId: interaction.guild.id })
 
                 if (data.length === 0) {
                     const no_warn_found_embed = new Discord.MessageEmbed()
@@ -223,9 +223,9 @@ module.exports = {
                 .setAuthor({ name: `All warnings was been forgiven from ${member.tag}`, iconURL: member.displayAvatarURL() })
                 .setDescription(`**Moderator:** <@${interaction.user.id}>\n${description}`)
 
-            return interaction.reply({ embeds: [removed_all_warns_embed] }) 
+            return interaction.reply({ embeds: [removed_all_warns_embed] })
 
-            
+
         }
     }
 }
