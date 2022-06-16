@@ -27,6 +27,7 @@ module.exports = {
             .setColor(yellow_bread)
             .addField("`/ban [member] (optional reason)`", "Ban a member from the server")
             .addField("`/unban [member] (optional reason)`", "Unban member form the server")
+            .addField("`/kick [member] (optional reason)`", "Kick a member from the server")
             .addField("`/warn add [member] (optional reason)`", "Warn a member")
             .addField("`/warn remove [warn-ID]`", "Remove a specific warn form a member")
             .addField("`/warn remove_all [member]`", "Remove all warn from a member")
@@ -34,7 +35,6 @@ module.exports = {
             .addField("`/moderator_role add [role]`", "Add a role for your moderators (this role isn't affected form bot moderation BE CAREFUL)")
             .addField("`/modrator_role remove [role]`", "Remove a role from list of moderator role")
             .addField("`/moderator_role list [role]`", "Get a list of moderator roles")
-        // .addField("`/`")
 
         if (category === null) {
 

@@ -1,7 +1,7 @@
 const { REST } = require("@discordjs/rest")
 const { Routes } = require("discord-api-types/v9");
 require("dotenv").config();
-const { createSpinner } = require ('nanospinner'); 
+const { createSpinner } = require('nanospinner');
 const GuildConfig = require("../../models/GuildConfig")
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
 
         const CLIENT_ID = client.user.id;
 
-      
+
         const spinner = createSpinner()
         const rest = new REST({
             version: "9"
@@ -35,13 +35,13 @@ module.exports = {
                     await rest.put(Routes.applicationCommands(CLIENT_ID), {
                         body: commands
                     });
-                    spinner.success({ text: "Succefully registered commands globaly!"});
+                    spinner.success({ text: "Succefully registered commands globaly!" });
                 } else {
                     await rest.put(Routes.applicationGuildCommands(CLIENT_ID, process.env.GUILD_ID), {
                         body: commands  //[]
-                        
+
                     });
-                    spinner.success({ text: "Succefully registered commands locally!"});
+                    spinner.success({ text: "Succefully registered commands locally!" });
                     // console.log(commands)
                 }
             } catch (err) {
@@ -52,6 +52,7 @@ module.exports = {
         //******************/
         //   Get GuildId   //
         //******************/
+
 
     }
 }

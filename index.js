@@ -5,7 +5,7 @@ global.client = new Discord.Client({
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
 const path = require("path")
-const { createSpinner } = require ('nanospinner'); 
+const { createSpinner } = require('nanospinner');
 
 const Database = require("./config/Database.js");
 
@@ -34,7 +34,7 @@ client.commands = new Discord.Collection();
 
 
 const slashCommandsFolder = fs.readdirSync("./commands/slashCommands/"); //commands\slashCommands
-for (const folder of slashCommandsFolder) { 
+for (const folder of slashCommandsFolder) {
     const commandsFiles = fs.readdirSync(`./commands/slashCommands/${folder}`);
     for (const file of commandsFiles) {
         if (file.endsWith(".js")) {
