@@ -32,26 +32,37 @@ module.exports = {
             }
         }
 
+        const rolesId = member.roles.cache.map(roles => roles.id)
+
+        console.log(rolesId)
+
+        let rolesIDEceptEveryone = rolesId.slice(0, rolesId.length - 1);
+
+        console.log(rolesIDEceptEveryone)
+
+
+
         var user_info_embed = new Discord.MessageEmbed()
-            .setAuthor({ name: `${user.tag}'s informations`, iconURL: user.displayAvatarURL()})
+            .setColor(yellow_bread)
+            .setAuthor({ name: `${user.tag}'s informations`, iconURL: user.displayAvatarURL() })
             .addField("Username", user.tag, true)
             .addField("User ID", user.id, true)
             .addField("Created At", member.user.createdAt.toDateString(), true)
             .addField("Joined At", member.joinedAt.toDateString(), true)
-            .addField("Roles",  `Roles: ${member.roles.cache.map(roles => `<@&${roles.id}>`).join(", ").split("@everyone")}`, true)
+            .addField("Roles", `Roles: ${rolesIDEceptEveryone.join(", ")}`, true)
             .setThumbnail(user.displayAvatarURL())
 
 
-            // .setThumbnail(user.displayAvatarURL())
-            // .addField("User id", "```" + member.user.id + "```", true)
-            // // .addField("Status", "```" + member.user.presence.status + "```", true)   <-- Priviliged intents
-            // .addField("Is a bot?", member.user.bot ? "```Yes```" : "```No```", true)
-            // .addField("Account created", "```" + member.user.createdAt.toDateString() + "```", true)
-            // .addField("Joined this server", "```" + member.joinedAt.toDateString() + "```", true)
-            // .addField("Permissions", "```" + perms_list + "```", false)
-            // .addField("Roles", "```" + member.roles.cache.map(ruolo => ruolo.name).join("\r") + "```", false)
-            // .setColor("#2D2D2D")
+        // .setThumbnail(user.displayAvatarURL())
+        // .addField("User id", "```" + member.user.id + "```", true)
+        // // .addField("Status", "```" + member.user.presence.status + "```", true)   <-- Priviliged intents
+        // .addField("Is a bot?", member.user.bot ? "```Yes```" : "```No```", true)
+        // .addField("Account created", "```" + member.user.createdAt.toDateString() + "```", true)
+        // .addField("Joined this server", "```" + member.joinedAt.toDateString() + "```", true)
+        // .addField("Permissions", "```" + perms_list + "```", false)
+        // .addField("Roles", "```" + member.roles.cache.map(ruolo => ruolo.name).join("\r") + "```", false)
+        // .setColor("#2D2D2D")
 
-        interaction.reply({ embeds: [user_info_embed], ephemeral: true})
+        interaction.reply({ embeds: [user_info_embed], ephemeral: true })
     }
 }
