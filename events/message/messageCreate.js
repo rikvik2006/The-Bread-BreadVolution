@@ -15,7 +15,7 @@ module.exports = {
             const command_not_found_embed = new Discord.MessageEmbed()
                 .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
                 .setColor(red_bread)
-                .setDescription("Hi, I see you want to use my command, now discord no longer allows you to use text commands like this, but now all commands have been transferred in the form of **SlashCommands**.\nTo see a list of commands type `/help`, or just type `/` and click on my logo on the screen, which will open at this point, you will see all the commands available with their name and description")
+                .setDescription("Hi, I see you want to use my command, now discord no longer allows you to use text commands like this, but now all commands have been transferred in the form of **SlashCommands** [find out more here](https://support.discord.com/hc/it/articles/1500000368501-Slash-Commands-FAQ).\nTo see a list of commands type `/help`, or just type `/` and click on my logo on the screen, which will open at this point, you will see all the commands available with their name and description")
             return message.reply({ embeds: [command_not_found_embed], ephemeral: true });
         }
         const command = message.client.commands.get(commandName) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
@@ -30,8 +30,14 @@ module.exports = {
             return message.reply('I can\'t execute that command inside DMs!');
         }
 
+        const command_not_more_active = new Discord.MessageEmbed()
+            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
+            .setColor(red_bread)
+            .setDescription(`This command is no longer available: \`${message.content}\`\nNow all the commands have been transformed into **Slash Commands** [find out more here](https://support.discord.com/hc/it/articles/1500000368501-Slash-Commands-FAQ).\nTo see a list of commands type \`/help\`, or just type \`/\` and click on my logo on the screen, which will open at this point, you will see all the commands available with their name and description`)
+
         try {
-            command.execute(message, args);
+            // command.execute(message, args);
+            message.reply({ embeds: [command_not_more_active] })
         } catch (error) {
             console.error(error);
             message.reply('there was an error trying to execute that command!');
