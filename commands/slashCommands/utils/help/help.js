@@ -48,7 +48,7 @@ module.exports = {
             .addField("`/toxic_detector toxic_percentage [num]`", "Enter the percentage a message must exceed to be considered toxic")
 
         const antispam_page_help_embed = new Discord.MessageEmbed()
-            .setAuthor({ name: `${interaction.client.username} antispam commands`, iconURL: interaction.client.user.displayAvatarURL() })
+            .setAuthor({ name: `${interaction.client.user.username} antispam commands`, iconURL: interaction.client.user.displayAvatarURL() })
             .setColor(yellow_bread)
             .addField("`/antispam add [channel]`", "Add a channel, to the spam filter")
             .addField("`/antispam all_channels`", "Add all channels of the server to the spam filter")
