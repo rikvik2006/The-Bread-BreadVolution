@@ -142,7 +142,7 @@ module.exports = {
 
                             await i.deferUpdate();
                             await wait(10)
-                            await i.editREply({ embeds: [antitoxic_page_help_embed], components: [] })
+                            await i.editReply({ embeds: [antitoxic_page_help_embed], components: [] })
                             collector.stop();
 
                             break;
