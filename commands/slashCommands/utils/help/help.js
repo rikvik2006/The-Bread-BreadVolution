@@ -60,7 +60,7 @@ module.exports = {
             .setAuthor({ name: `${interaction.client.user.username} antibadwords commands`, iconURL: interaction.client.user.displayAvatarURL() })
             .setColor(yellow_bread)
             .addField("`/badwords_filter add [channel]`", "Add a channel, to the badwords filter")
-            .addField("/badwords_filter all_channels", "Add all channels of the server to the badwords filter")
+            .addField("`/badwords_filter all_channels`", "Add all channels of the server to the badwords filter")
             .addField("`/badwords_filter remove [channel]`", "Remove a channel, from the badwords filter")
             .addField("`/badwords_filter list`", "Get a list of a channels that have bad words filter activated")
 
