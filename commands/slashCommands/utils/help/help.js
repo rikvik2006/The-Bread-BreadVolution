@@ -40,22 +40,37 @@ module.exports = {
         const antitoxic_page_help_embed = new Discord.MessageEmbed()
             .setAuthor({ name: `${interaction.client.user.username} antitoxic commands`, iconURL: interaction.client.user.displayAvatarURL() })
             .setColor(yellow_bread)
-            .addField("`/toxic_analyze [message]", "Analyze the toxicity of a message")
-            .addField("`/toxic_detector add [channel]", "Add a channel, to the toxic filter")
-            .addField("`/toxic_detector all_channels", "Add all channels of the server to the toxic filter")
-            .addField("`/toxic_detector remove [channel]", "Remove a channel, from the toxic filter")
-            .addField("`/toxic_detector list", "Get a list of toxic channels")
-            .addField("`/toxic_detector toxic_percentage [num]", "Enter the percentage a message must exceed to be considered toxic")
+            .addField("`/toxic_analyze [message]`", "Analyze the toxicity of a message")
+            .addField("`/toxic_detector add [channel]`", "Add a channel, to the toxic filter")
+            .addField("`/toxic_detector all_channels`", "Add all channels of the server to the toxic filter")
+            .addField("`/toxic_detector remove [channel]`", "Remove a channel, from the toxic filter")
+            .addField("`/toxic_detector list`", "Get a list of toxic channels")
+            .addField("`/toxic_detector toxic_percentage [num]`", "Enter the percentage a message must exceed to be considered toxic")
 
         const antispam_page_help_embed = new Discord.MessageEmbed()
             .setAuthor({ name: `${interaction.client.username} antispam commands`, iconURL: interaction.client.user.displayAvatarURL() })
             .setColor(yellow_bread)
-            .addField("`/antispam add [channel]", "Add a channel, to the spam filter")
-            .addField("`/antispam all_channels", "Add all channels of the server to the spam filter")
-            .addField("`/antispam remove [channel]", "Remove a channel, from the spam filter")
-            .addField("`/antispam list", "Get a list of spam channels")
-            .addField("`/antispam set_time_out [time]", "Set the time out that will be assigned to the user who spams")
+            .addField("`/antispam add [channel]`", "Add a channel, to the spam filter")
+            .addField("`/antispam all_channels`", "Add all channels of the server to the spam filter")
+            .addField("`/antispam remove [channel]`", "Remove a channel, from the spam filter")
+            .addField("`/antispam list`", "Get a list of spam channels")
+            .addField("`/antispam set_time_out [time]`", "Set the time out that will be assigned to the user who spams")
 
+        const antibadwords_page_help_embed = new Discord.MessageEmbed()
+            .setAuthor({ name: `${interaction.client.user.username} antibadwords commands`, iconURL: interaction.client.user.displayAvatarURL() })
+            .setColor(yellow_bread)
+            .addField("`/badwords_filter add [channel]`", "Add a channel, to the badwords filter")
+            .addField("/badwords_filter all_channels", "Add all channels of the server to the badwords filter")
+            .addField("`/badwords_filter remove [channel]`", "Remove a channel, from the badwords filter")
+            .addField("`/badwords_filter list`", "Get a list of a channels that have bad words filter activated")
+
+        const utils_page_help_embed = new Discord.MessageEmbed()
+            .setAuthor({ name: `${interaction.client.user.username} utils commands`, iconURL: interaction.client.user.displayAvatarURL() })
+            .setColor(yellow_bread)
+            .addField("`/serverinfo`", "Get information about the server")
+            .addField("`/userinfo [member]`", "Get information about a member")
+            .addField("`/botinfo`", "Get information about the bot")
+            .addField("`/ping`", "Pong")
 
 
         if (category === null) {
@@ -128,6 +143,7 @@ module.exports = {
                             await i.deferUpdate();
                             await wait(10)
                             await i.editREply({ embeds: [antitoxic_page_help_embed], components: [] })
+                            collector.stop();
 
                             break;
                         case "anti_spam_page":
@@ -135,16 +151,23 @@ module.exports = {
                             await i.deferUpdate();
                             await wait(10)
                             await i.editReply({ embeds: [antispam_page_help_embed], components: [] })
+                            collector.stop();
 
                             break;
                         case "anti_bad_words_page":
 
-                            // await i.deferUpdate();
-                            // await wait(10)
-                            // await i.editReply({ embeds: [], components: []})
+                            await i.deferUpdate();
+                            await wait(10)
+                            await i.editReply({ embeds: [antibadwords_page_help_embed], components: [] })
+                            collector.stop();
 
                             break;
                         case "utilspage":
+
+                            await i.deferUpdate();
+                            await wait(10)
+                            await i.editReply({ embeds: [utils_page_help_embed], components: [] })
+                            collector.stop();
 
                             break;
                     }
@@ -154,13 +177,13 @@ module.exports = {
         } else if (category === "moderation") {
             interaction.reply({ embeds: [moderation_page_help_embed] })
         } else if (category === "antitoxic") {
-
+            interaction.reply({ embeds: [antitoxic_page_help_embed] })
         } else if (category === "antispam") {
-
+            interaction.reply({ embeds: [antispam_page_help_embed] })
         } else if (category === "antibadwords") {
-
+            interaction.reply({ embeds: [antibadwords_page_help_embed] })
         } else if (category === "utils") {
-
+            interaction.reply({ embeds: [utils_page_help_embed] })
         }
 
     }
