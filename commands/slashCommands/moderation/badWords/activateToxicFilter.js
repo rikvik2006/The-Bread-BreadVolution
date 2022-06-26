@@ -32,6 +32,11 @@ module.exports = {
         )
         .addSubcommand(subcommand =>
             subcommand
+                .setName("remove_all_channels")
+                .setDescription("Disable the toxics detector in all channels")
+        )
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName("all_channels")
                 .setDescription("Activates the toxic detector for all channels")
         )
@@ -217,7 +222,7 @@ module.exports = {
             await data.save()
 
             const change_toxic_percentage_warning = new Discord.MessageEmbed()
-                .setDescription("ATTENTION, IF YOU HAVE JUST CHANGED THE PERCENTAGE OF THE TOXIC DETECTOR, WE RECOMMEND TESTING THE NEW PERCENTAGE WITH THE `/toxic_analyze` COMMAND IF YOU ARE NOT SATISFIED WITH YOUR NEW CHOICE, YOU CAN RESET IT AS DEFAULT.\rDEFAULT VALUE IS 90%")
+                .setDescription("ATTENTION, IF YOU HAVE JUST CHANGED THE PERCENTAGE OF THE TOXIC DETECTOR, WE RECOMMEND TESTING THE NEW PERCENTAGE WITH THE `/toxic_analyze` COMMAND IF YOU ARE NOT SATISFIED WITH YOUR NEW CHOICE, YOU CAN RESET IT AS DEFAULT.\rDEFAULT VALUE IS `90%`")
                 .setColor(yellow_bread)
 
             const change_toxic_percentage = new Discord.MessageEmbed()
@@ -227,6 +232,39 @@ module.exports = {
 
             interaction.reply({ embeds: [change_toxic_percentage_warning, change_toxic_percentage], ephemeral: true })
 
+        } else if (interaction.options.getSubcommand() === "remove_all_channels") {
+            if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                return no_permission("disable toxics detector in all channels", "MANAGE MESSAGES")
+            }
+
+            let data
+
+            try {
+                data = await GuildConfig.findOne({ guildId: interaction.guild.id })
+
+                if (!data) {
+                    data = await GuildConfig.create({ guildId: interaction.guild.id })
+                }
+            } catch (err) {
+                console.log(err);
+            }
+
+            if (data.toxicsDetectorChannel.lenght === 0) {
+                const no_channel_set = new Discord.MessageEmbed()
+                    .setColor(red_bread)
+                    .setDescription("The toxic detector isn't active in any channels")
+
+                return interaction.reply({ embeds: [no_channel_set] })
+            }
+
+            data.toxicsDetectorChannel = [];
+            data.save()
+
+            const removedAllChannels = new Discord.MessageEmbed()
+                .setColor("#2d2d2d")
+                .setDescription("Toxic detector has been deactiveted for all channels");
+
+            interaction.reply({ embeds: [removedAllChannels] })
         }
     }
 }
