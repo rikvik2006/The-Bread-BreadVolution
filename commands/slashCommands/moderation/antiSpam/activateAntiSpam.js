@@ -34,6 +34,11 @@ module.exports = {
         )
         .addSubcommand(subcommand =>
             subcommand
+                .setName("remove_all_channels")
+                .setDescription("Disable anti spam system in all chanels")
+        )
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName("all_channels")
                 .setDescription("Add all channels to the atispam system")
         )
@@ -209,8 +214,8 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new Discord.MessageEmbed()
-                            .setColor("BLUE")
-                            .setDescription(`✅ - The channels set in antispam system are:\r ${channels}`)
+                            .setColor("#2d2d2d")
+                            .setDescription(`This is a list of channels were is active Antispm system:\r ${channels}`)
                     ],
                     ephemeral: true
                 })
@@ -277,7 +282,7 @@ module.exports = {
                 } catch (err) {
                     console.log(err)
                 }
-                
+
                 console.log(msTime)
 
                 data.antiSpamTimeOut = msTime
@@ -285,12 +290,45 @@ module.exports = {
 
                 const timeOutSet_embed = new Discord.MessageEmbed()
                     .setColor("#2d2d2d")
-                    .setDescription(`Now spammers will be time outed with a penalty of \`${time}\``)     
+                    .setDescription(`Now spammers will be time outed with a penalty of \`${time}\``)
 
                 interaction.reply({ embeds: [timeOutSet_embed], ephemeral: true })
             } break;
 
+            case "remove_all_channels": {
+                if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                    return no_permission("disable Anti Spam system in all channels", "MANAGE_MESSAGES");
+                }
 
+                let data
+
+                try {
+                    data = await antiSpamSchema.findOne({ Guild: interaction.guild.id })
+
+                    if (!data) {
+                        data = await antiSpamSchema.create({ Guild: interaction.guild.id })
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+
+                if (data.Channels.length === 0) {
+                    const no_channels_set = new Discord.MessageEmbed()
+                        .setColor(red_bread)
+                        .setDescription("The Antispam system isn't active in any channels")
+
+                    return interaction.reply({ embeds: [no_channels_set] })
+                }
+
+                data.Channels = []
+                data.save();
+
+                const removedAllChnenls = new Discord.MessageEmbed()
+                    .setColor("#2d2d2d")
+                    .setDescription("Anti spam system has been deactivated in all channels");
+
+                interaction.reply({ embeds: [removedAllChnenls] })
+            } break;
         }
     }
 }
