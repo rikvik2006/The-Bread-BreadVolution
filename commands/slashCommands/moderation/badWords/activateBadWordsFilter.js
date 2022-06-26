@@ -32,6 +32,11 @@ module.exports = {
         )
         .addSubcommand(subcommand =>
             subcommand
+                .setName("remove_all_channels")
+                .setDescription("Disable the badwords filter for all channels")
+        )
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName("all_channels")
                 .setDescription("Activates the bad words filter for all channels")
         )
@@ -196,6 +201,39 @@ module.exports = {
                 .setDescription(`The bad words filter has been activated for all channels!`)
 
             interaction.reply({ embeds: [channel_added], ephemeral: true })
+        } else if (interaction.options.getSubcommand() === "remove_all_channels") {
+            if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+                return no_permission("Disable Badwords Filter for all channels", "MANAGE_MESSAGES");
+            }
+
+            let data
+
+            try {
+                data = await GuildConfig.findOne({ guildId: interaction.guild.id })
+
+                if (!data) {
+                    data = await GuildConfig.create({ guildId: interaction.guild.id })
+                }
+            } catch (err) {
+                console.log(err);
+            }
+
+            if (data.badWordsChannelAdd.length === 0) {
+                const no_channels_set = new Discord.MessageEmbed()
+                    .setColor(red_bread)
+                    .setDescription("The Badwords filter isn't active in any channels")
+
+                return interaction.reply({ embeds: [no_channels_set] })
+            }
+
+            data.badWordsChannelAdd = [];
+            data.save();
+
+            const removedAllChnenls = new Discord.MessageEmbed()
+                .setColor("#2d2d2d")
+                .setDescription("Badwords filter has been desctivated in all channles")
+
+            interaction.reply({ embeds: [removedAllChnenls] })
         }
     }
 

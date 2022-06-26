@@ -249,7 +249,7 @@ module.exports = {
                 console.log(err);
             }
 
-            if (data.toxicsDetectorChannel.lenght === 0) {
+            if (data.toxicsDetectorChannel.length === 0) {
                 const no_channel_set = new Discord.MessageEmbed()
                     .setColor(red_bread)
                     .setDescription("The toxic detector isn't active in any channels")
