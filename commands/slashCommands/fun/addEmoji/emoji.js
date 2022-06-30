@@ -4,7 +4,7 @@ const { default: axios } = require("axios");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("add_emoji")
+        .setName("emoji")
         .setDescription("Add an emoji in your server")
         .addSubcommand(subcommand =>
             subcommand
@@ -22,10 +22,37 @@ module.exports = {
                         .setDescription("Name of emoji")
                         .setRequired(true)
                 )
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName("remove")
+                .setDescription("Remove an emoji form the server")
+                .addStringOption(option =>
+                    option
+                        .setName("emoji_name")
+                        .setDescription("The name of emoji to remove")
+                        .setRequired(true)
+                )
         ),
 
     async execute(interaction) {
+
+        const no_permission = function (action, permission_needed) {
+            const no_permission_embed = new Discord.MessageEmbed()
+                .setColor("#F04848")
+                .setTitle("No permission")
+                .setDescription(`${x}You don't have permission to ${action}`)
+                .addField("Permission", `\`\`\`${permission_needed}\`\`\``)
+
+            interaction.reply({ embeds: [no_permission_embed], ephemeral: true })
+        }
+
         if (interaction.options.getSubcommand() === "copy") {
+
+            if (!interaction.member.permissions.has("MANAGE_EMOJIS_AND_STICKERS")) {
+                return no_permission("add a emoji in this server", "MANAGE EMOJIS AND STICKERS")
+            }
+
             let emoji = interaction.options.getString("emoji").trim()
             let name = interaction.options.getString("name")
 
@@ -60,6 +87,7 @@ module.exports = {
 
             interaction.guild.emojis.create(emoji, name)
                 .then(emoji => {
+                    6
                     const added_emoji = new Discord.MessageEmbed()
                         .setAuthor({ name: `${interaction.user.tag} added an emoji`, iconURL: interaction.user.displayAvatarURL() })
                         .setDescription(`**Emoji:** ${emoji.toString()}\n**Name:** \`${emoji.name}\``)
@@ -71,6 +99,41 @@ module.exports = {
                         .setDescription(x + "There are an erore while adding you emoji")
                         .setColor(red_bread)
                     return interaction.reply({ embeds: [err_emoji], ephemeral: true })
+                })
+        } else if (interaction.options.getSubcommand() === "remove") {
+            if (!interaction.member.permissions.has("MANAGE_EMOJIS_AND_STICKERS")) {
+                return no_permission("remove a emoji in this server", "MANAGE EMOJIS AND STICKERS")
+            }
+
+            const emojiQuery = interaction.options.getString("emoji_name")?.trim()
+
+            const emoji = await interaction.guild.emojis.fetch()
+                .then(emojis => {
+                    return emojis.find(x => x.name === emojiQuery || x.toString() === emojiQuery)
+                }).catch(err => { })
+
+            if (!emoji) {
+                const no_emoji_found = new Discord.MessageEmbed()
+                    .setColor(red_bread)
+                    .setDescription(`${x}There isn't any emoji whit this name`)
+
+                return interaction.reply({ embeds: [no_emoji_found], ephemeral: true })
+            }
+
+            emoji.delete()
+                .then(emoji => {
+                    const succesDeleted = new Discord.MessageEmbed()
+                        .setAuthor({ name: `${interaction.user.tag} deleted an emoji`, iconURL: interaction.user.displayAvatarURL() })
+                        .setDescription(`**Name: **${emojiQuery}`)
+                        .setColor("#2d2d2d")
+
+                    return interaction.reply({ embeds: [succesDeleted] })
+                }).catch(err => {
+                    const err_delete = new Discord.MessageEmbed()
+                        .setColor(red_bread)
+                        .setDescription(`${x}unable to remove emoji`)
+
+                    return interaction.reply({ embeds: [err_delete], ephemeral: true })
                 })
         }
     }
