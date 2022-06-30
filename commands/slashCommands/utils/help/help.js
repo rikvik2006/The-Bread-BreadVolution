@@ -44,6 +44,7 @@ module.exports = {
             .addField("`/toxic_detector add [channel]`", "Add a channel, to the toxic filter")
             .addField("`/toxic_detector all_channels`", "Add all channels of the server to the toxic filter")
             .addField("`/toxic_detector remove [channel]`", "Remove a channel, from the toxic filter")
+            .addField("`/toxic_detector remove_all_channels`", "Remove all channles of the server to the toxic filter")
             .addField("`/toxic_detector list`", "Get a list of toxic channels")
             .addField("`/toxic_detector toxic_percentage [num]`", "Enter the percentage a message must exceed to be considered toxic")
 
@@ -53,6 +54,7 @@ module.exports = {
             .addField("`/antispam add [channel]`", "Add a channel, to the spam filter")
             .addField("`/antispam all_channels`", "Add all channels of the server to the spam filter")
             .addField("`/antispam remove [channel]`", "Remove a channel, from the spam filter")
+            .addField("`/antispam remove_all_channels`", "Remove all channels of the server to the spam filter")
             .addField("`/antispam list`", "Get a list of spam channels")
             .addField("`/antispam set_time_out [time]`", "Set the time out that will be assigned to the user who spams")
 
@@ -62,6 +64,7 @@ module.exports = {
             .addField("`/badwords_filter add [channel]`", "Add a channel, to the badwords filter")
             .addField("`/badwords_filter all_channels`", "Add all channels of the server to the badwords filter")
             .addField("`/badwords_filter remove [channel]`", "Remove a channel, from the badwords filter")
+            .addField("`/badwords_filter remove_all_channels`", "Remove all channels form the badwords filter")
             .addField("`/badwords_filter list`", "Get a list of a channels that have bad words filter activated")
 
         const utils_page_help_embed = new Discord.MessageEmbed()
