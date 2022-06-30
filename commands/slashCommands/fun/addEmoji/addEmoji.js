@@ -27,10 +27,22 @@ module.exports = {
     async execute(interaction) {
         if (interaction.options.getSubcommand() === "copy") {
             let emoji = interaction.options.getString("emoji").trim()
-            console.log(emoji)
             let name = interaction.options.getString("name")
 
+            if (name.length < 2 || name.length > 32) {
+                const err_name_length = new Discord.MessageEmbed()
+                    .setColor(red_bread)
+                    .setDescription(x + "The name of emoji must be between 2 and 32 length ")
+                return interaction.reply({ embeds: [err_name_length], ephemeral: true })
+            }
 
+            if (!emoji.startsWith("<") && !emoji.endsWith(">")) {
+                const non_emoji = new Discord.MessageEmbed()
+                    .setColor(red_bread)
+                    .setDescription(x + "Specific one vaild **custom** emotes")
+
+                return interaction.reply({ embeds: [non_emoji], ephemeral: true })
+            }
 
             if (emoji.startsWith("<") && emoji.endsWith(">")) {
                 const id = emoji.match(/\d{15,}/g)[0]
@@ -56,9 +68,9 @@ module.exports = {
                     return interaction.reply({ embeds: [added_emoji] })
                 }).catch(err => {
                     const err_emoji = new Discord.MessageEmbed()
-                        .setDescription("There are an erore while adding you emoji")
+                        .setDescription(x + "There are an erore while adding you emoji")
                         .setColor(red_bread)
-                    return interaction.reply(err_emoji)
+                    return interaction.reply({ embeds: [err_emoji], ephemeral: true })
                 })
         }
     }

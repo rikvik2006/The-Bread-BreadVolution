@@ -41,3 +41,5 @@ global.DarkGrey = "#2f3136";
 
 global.NotQuiteBlack = "#23272a";
 
+
+global.x = "<a:cross:992033984605327391>｜"
