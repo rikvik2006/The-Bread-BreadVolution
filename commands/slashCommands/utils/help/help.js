@@ -15,6 +15,7 @@ module.exports = {
                 .addChoice("Antitoxic", "antitoxic")
                 .addChoice("Antispam", "antispam")
                 .addChoice("Antibadwords", "antibadwords")
+                .addChoice("Fun", "fun")
                 .addChoice("Utils", "utils"),
         ),
 
@@ -67,6 +68,12 @@ module.exports = {
             .addField("`/badwords_filter remove_all_channels`", "Remove all channels form the badwords filter")
             .addField("`/badwords_filter list`", "Get a list of a channels that have bad words filter activated")
 
+        const fun_page_help_embed = new Discord.MessageEmbed()
+            .setAuthor({ name: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() })
+            .setColor(yellow_bread)
+            .addField("`/emoji copy`", "Copy an emoji form another server")
+            .addField("`/emoji remove`", "Remove ad emoji from the server")
+
         const utils_page_help_embed = new Discord.MessageEmbed()
             .setAuthor({ name: `${interaction.client.user.username} utils commands`, iconURL: interaction.client.user.displayAvatarURL() })
             .setColor(yellow_bread)
@@ -74,6 +81,7 @@ module.exports = {
             .addField("`/userinfo [member]`", "Get information about a member")
             .addField("`/botinfo`", "Get information about the bot")
             .addField("`/ping`", "Pong")
+
 
 
         if (category === null) {
@@ -85,6 +93,7 @@ module.exports = {
                 .addField("**Anti Toxic**", "`/help antitoxic`", true)
                 .addField("**Anti Spam**", "`/help antispam`", true)
                 .addField("**Anti Bad Words**", "`/help antibadwords`", true)
+                .addField("**Fun**", "`/help fun`", true)
                 .addField("**Utils**", "`/help utils`", true)
 
             const row = new Discord.MessageActionRow()
@@ -114,6 +123,11 @@ module.exports = {
                                 label: "Anti Bad Words",
                                 description: "This system have a very very big list of bad wrods",
                                 value: "anti_bad_words_page"
+                            },
+                            {
+                                label: "Fun",
+                                description: "Have fun whit fun commands",
+                                value: "fun",
                             },
                             {
                                 label: "Utils",
@@ -165,6 +179,12 @@ module.exports = {
                             collector.stop();
 
                             break;
+                        case "fun":
+                            await i.deferUpdate()
+                            await wait(10)
+                            await i.editReply({ embeds: [fun_page_help_embed], components: [] })
+                            collector.stop();
+                            break;
                         case "utilspage":
 
                             await i.deferUpdate();
@@ -185,6 +205,8 @@ module.exports = {
             interaction.reply({ embeds: [antispam_page_help_embed] })
         } else if (category === "antibadwords") {
             interaction.reply({ embeds: [antibadwords_page_help_embed] })
+        } else if (category === "fun") {
+            interaction.reply({ embeds: [fun_page_help_embed] })
         } else if (category === "utils") {
             interaction.reply({ embeds: [utils_page_help_embed] })
         }
