@@ -11,6 +11,7 @@ module.exports = {
             .setName("channel")
             .setDescription("The channel to set as the welcome channel")
             .setRequired(true)
+            .addChannelTypes([0])
         ),
     async execute(interaction) {
 

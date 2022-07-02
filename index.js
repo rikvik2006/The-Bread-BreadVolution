@@ -122,6 +122,13 @@ for (const file of functionFile) {
 }
 
 
+client.on("messageCreate", async (message) => {
+    if (message.content === "!!join") {
+        client.emit("guildMemberAdd", message.member)
+    }
+})
+
+
 //************************/
 //  Database Connection
 //************************/
