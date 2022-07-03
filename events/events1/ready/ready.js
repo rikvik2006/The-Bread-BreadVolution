@@ -2,7 +2,7 @@ const { REST } = require("@discordjs/rest")
 const { Routes } = require("discord-api-types/v9");
 require("dotenv").config();
 const { createSpinner } = require('nanospinner');
-const GuildConfig = require("../../models/GuildConfig")
+const GuildConfig = require("../../../models/GuildConfig")
 
 module.exports = {
     name: "ready",

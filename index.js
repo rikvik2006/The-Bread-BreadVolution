@@ -7,6 +7,7 @@ global.client = new Discord.Client({
 const path = require("path")
 const { createSpinner } = require('nanospinner');
 
+
 const Database = require("./config/Database.js");
 
 const db = new Database();
@@ -127,6 +128,7 @@ client.on("messageCreate", async (message) => {
         client.emit("guildMemberAdd", message.member)
     }
 })
+
 
 
 //************************/
