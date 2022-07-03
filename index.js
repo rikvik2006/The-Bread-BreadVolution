@@ -144,16 +144,15 @@ client.on("messageCreate", async (message) => {
 //   Top.gg AutoPoster
 //************************/
 
-const topgg_token = process.env.TOPGG_TOKEN || null;
+const spinner = createSpinner()
 
-const spinner = createSpinner("Posting stats to Top.gg...").start()
 
-if (topgg_token === null) {
-    return spinner.error({ text: "Nothing posted to Top.gg" })
-} else {
+if (process.env.TOPGG_POST === "yes") {
     const ap = AutoPoster(process.env.TOPGG_TOKEN, client)
 
     ap.on("posted", () => {
         spinner.success({ text: "Posted stats to Top.gg" })
     })
+} else {
+    spinner.error({ text: "Nothing posted to Top.gg" })
 }
