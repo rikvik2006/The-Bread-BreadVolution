@@ -25,7 +25,7 @@ const { CLIENT_RENEG_LIMIT } = require("tls");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const Topgg = require("@top-gg/sdk");
-const { AutoPoster } = require("topgg-autoposter")
+const { AutoPoster } = require("topgg-autoposter");
 
 const commands = [];
 
@@ -146,13 +146,12 @@ client.on("messageCreate", async (message) => {
 
 const topgg_token = process.env.TOPGG_TOKEN || null;
 
-console.log(topgg_token)
 const spinner = createSpinner("Posting stats to Top.gg...").start()
 
 if (topgg_token === null) {
     return spinner.error({ text: "Nothing posted to Top.gg" })
 } else {
-    const ap = AutoPoster(topgg_token, client)
+    const ap = AutoPoster(process.env.TOPGG_TOKEN, client)
 
     ap.on("posted", () => {
         spinner.success({ text: "Posted stats to Top.gg" })
