@@ -152,7 +152,7 @@ const spinner = createSpinner("Posting stats to Top.gg...").start()
 if (topgg_token === null) {
     return spinner.error({ text: "Nothing posted to Top.gg" })
 } else {
-    const ap = AutoPoster.apply(topgg_token, client)
+    const ap = AutoPoster.apply(process.env.TOPGG_TOKEN, client)
 
     ap.on("posted", () => {
         spinner.success({ text: "Posted stats to Top.gg" })
