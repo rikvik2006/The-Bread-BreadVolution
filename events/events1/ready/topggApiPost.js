@@ -8,7 +8,8 @@ module.exports = {
 
     async execute(client) {
 
-        const spinner = createSpinner("Posting stats to Top.gg").start()
+        console.log(topgg_token)
+        const spinner = createSpinner("Posting stats to Top.gg...").start()
         if (topgg_token === null) {
             return spinner.error({ text: "Nothing posted to Top.gg" })
         } else {
