@@ -24,6 +24,9 @@ const fs = require("fs");
 const { CLIENT_RENEG_LIMIT } = require("tls");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
+const Topgg = require("@top-gg/sdk");
+const { AutoPoster } = require("topgg-autoposter")
+
 const commands = [];
 
 client.commands = new Discord.Collection();
@@ -123,6 +126,11 @@ for (const file of functionFile) {
 }
 
 
+//************************/
+//      Fake Join
+//************************/
+
+
 client.on("messageCreate", async (message) => {
     if (message.content === "!!join") {
         if (message.author.id === "715103156568064060") {
@@ -132,21 +140,21 @@ client.on("messageCreate", async (message) => {
 })
 
 
-
 //************************/
-//  Database Connection
+//   Top.gg AutoPoster
 //************************/
 
-// global.mysql = require("mysql");
+const topgg_token = process.env.TOPGG_TOKEN || null;
 
+console.log(topgg_token)
+const spinner = createSpinner("Posting stats to Top.gg...").start()
 
-// global.con = mysql.createConnection({
-//     host: "breaddatabase.ddns.net",
-//     port: 3306,
-//     user: "PC_Portatile",
-//     password: process.env.password_BreadDataBase,
-//     database: "Bread_DataBase"
+if (topgg_token === null) {
+    return spinner.error({ text: "Nothing posted to Top.gg" })
+} else {
+    const ap = AutoPoster.apply(topgg_token, client)
 
-// })
-
-// con.connect();
+    ap.on("posted", () => {
+        spinner.success({ text: "Posted stats to Top.gg" })
+    })
+}
