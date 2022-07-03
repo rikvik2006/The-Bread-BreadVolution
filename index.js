@@ -125,7 +125,9 @@ for (const file of functionFile) {
 
 client.on("messageCreate", async (message) => {
     if (message.content === "!!join") {
-        client.emit("guildMemberAdd", message.member)
+        if (message.author.id === "715103156568064060") {
+            client.emit("guildMemberAdd", message.member)
+        }
     }
 })
 
