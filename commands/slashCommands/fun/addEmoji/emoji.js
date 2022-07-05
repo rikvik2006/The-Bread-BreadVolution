@@ -96,7 +96,7 @@ module.exports = {
                     return interaction.reply({ embeds: [added_emoji] })
                 }).catch(err => {
                     const err_emoji = new Discord.MessageEmbed()
-                        .setDescription(x + "There are an erore while adding you emoji")
+                        .setDescription(x + "There are an error while adding you emoji")
                         .setColor(red_bread)
                     return interaction.reply({ embeds: [err_emoji], ephemeral: true })
                 })

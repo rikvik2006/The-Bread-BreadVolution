@@ -90,21 +90,23 @@ module.exports = {
 
             const emojiId = emoji.match(/\d{15,}/g)[0]
 
-            const reaction_roles_embed = new Discord.MessageEmbed()
-                .setAuthor({ name: "Select an emoji for get the role", iconURL: interaction.guild.iconURL() })
-                .setDescription(`**Role:** <@&${reactionMenu.roleId}>\n**Description:** ${reactionMenu.description}\n\n`)
-                .setColor("BLURPLE")
-                .setFooter({ text: `Reaction menuID: ${reactionMenu.menuReactionId}` })
+            try {
 
-            const message = await interaction.reply({ embeds: [reaction_roles_embed], fetchReply: true })
-            message.react(emojiId)
-            // .catch(() => {
-            //     const invalid_emoji_embed = new Discord.MessageEmbed()
-            //         .setDescription(x + "The emoji isn't of this server.\n**Tip:** Use the `/emoji copy` for copy an emoji from another server")
-            //         .setColor(red_bread)
+                const reaction_roles_embed = new Discord.MessageEmbed()
+                    .setAuthor({ name: "Select an emoji for get the role", iconURL: interaction.guild.iconURL() })
+                    .setDescription(`**Role:** <@&${reactionMenu.roleId}>\n**Description:** ${reactionMenu.description}\n\n`)
+                    .setColor("BLURPLE")
+                    .setFooter({ text: `Reaction menuID: ${reactionMenu.menuReactionId}` })
 
-            //     interaction.reply({ embeds: [invalid_emoji_embed], ephemeral: true })
-            // })
+                const message = await interaction.reply({ embeds: [reaction_roles_embed], fetchReply: true })
+                message.react(emojiId)
+            } catch (err) {
+                const invalid_emoji_embed = new Discord.MessageEmbed()
+                    .setDescription(x + "The emoji isn't of this server.\n**Tip:** Use the `/emoji copy` for copy an emoji from another server")
+                    .setColor(red_bread)
+
+                interaction.followUp({ embeds: [invalid_emoji_embed], ephemeral: true })
+            }
         }
     }
 }
