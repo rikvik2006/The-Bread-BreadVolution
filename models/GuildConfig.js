@@ -48,7 +48,7 @@ const GuildConfigSchema = new mongoose.Schema({
 
     punishmentTempmute: {
         type: mongoose.SchemaTypes.String,
-        required: true, 
+        required: true,
         default: "3", //number of warn for trigger the tempmute punishment
     },
 
@@ -81,6 +81,16 @@ const GuildConfigSchema = new mongoose.Schema({
         required: true,
         default: 90,
     },
+
+    //logs
+
+    modLogChannel: {
+        type: String,
+    },
+
+    serverLogChannl: {
+        type: String,
+    }
 
 
 
