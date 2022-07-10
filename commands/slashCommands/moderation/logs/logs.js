@@ -72,6 +72,34 @@ module.exports = {
 
             interaction.reply({ embeds: [modLogChannel_set_embed] })
 
+        } else if (interaction.options.getSubcommand() === "serverlog") {
+            const channel = interaction.options.getChannel("channel");
+
+            if (!interaction.member.permissions.has("ADMINISTRATOR")) {
+                return no_permission("set server logs channel", "ADMINISTRATOR")
+            }
+
+            let data
+
+            try {
+                data = await GuildConfig.findOne({ guildId: interaction.guild.id })
+
+                if (!data) {
+                    data = await GuildConfig.create({ guildId: interaction.guild.id })
+                }
+            } catch (err) {
+                console.log(err);
+            }
+
+            data.serverLogChannel = channel.id
+            await data.save()
+
+            const serverLogChannel_set_embed = new Discord.MessageEmbed()
+                .setAuthor({ name: `${interaction.user.tag} added a server log channel`, iconURL: interaction.user.displayAvatarURL() })
+                .setDescription(`**Channel:** ${channel}\n**Type:** Server`)
+                .setColor("#2d2d2d")
+
+            interaction.reply({ embeds: [serverLogChannel_set_embed], })
         }
     }
 };

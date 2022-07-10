@@ -88,7 +88,7 @@ const GuildConfigSchema = new mongoose.Schema({
         type: String,
     },
 
-    serverLogChannl: {
+    serverLogChannel: {
         type: String,
     }
 
