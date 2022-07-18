@@ -6,18 +6,18 @@ module.exports = {
     async execute(member) {
 
         const guildSettings = await GuildSettings.findOne({ guild_id: member.guild.id })
-        
-        if (!guildSettings && !guildSettings.welcome_channel_id) return; 
+
+        if (!guildSettings && !guildSettings.welcome_channel_id) return;
 
         const newMemberEmbed = new Discord.MessageEmbed()
             .setColor("#F8C300")
-            .setTitle("New Member!") 
-            .setDescription(`Welcome to the server, ${member.user.username}!`)
+            .setTitle("New Member!")
+            .setDescription(`Welcome to the server, ${member.user.username}!\n You are the ${member.guild.memberCount}° member`)
             .setThumbnail(member.user.displayAvatarURL())
             .setTimestamp();
 
-            member.guild.channels.cache.get(guildSettings.welcome_channel_id).send({
-                embeds: [newMemberEmbed]
-            })
+        member.guild.channels.cache.get(guildSettings.welcome_channel_id).send({
+            embeds: [newMemberEmbed]
+        })
     }
 }

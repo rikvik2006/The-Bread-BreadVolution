@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const GuildSettings = require("../../../models/GuildSettings");
+const GuildSettings = require("../../../../models/GuildSettings");
 const { Permissions } = require("discord.js");
 const Discord = require("discord.js");
 
