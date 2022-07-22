@@ -159,7 +159,7 @@ module.exports = {
                     console.log(err);
                 }
 
-                if (data.modLogChannel === null) {
+                if (data.modLogChannel === undefined) {
                     const no_modlog_channel_set = new Discord.MessageEmbed()
                         .setDescription("You don't have any log mod channel set")
                         .setColor(red_bread)
@@ -195,7 +195,7 @@ module.exports = {
                     console.log(err);
                 }
 
-                if (data.modLogChannel === null) {
+                if (data.modLogChannel === undefined) {
                     const no_modlog_channel_set = new Discord.MessageEmbed()
                         .setDescription("You don't have any server log channel set")
                         .setColor(red_bread)

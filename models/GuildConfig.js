@@ -85,15 +85,11 @@ const GuildConfigSchema = new mongoose.Schema({
     //logs
 
     modLogChannel: {
-        type: String,
-        required: true,
-        default: null
+        type: mongoose.SchemaTypes.String,
     },
 
     serverLogChannel: {
-        type: String,
-        required: true,
-        default: null,
+        type: mongoose.SchemaTypes.String,
     },
 
 
