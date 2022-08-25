@@ -156,3 +156,14 @@ if (process.env.TOPGG_POST === "yes") {
 } else {
     spinner.error({ text: "Nothing posted to Top.gg" })
 }
+
+
+//************************/
+//      Anti crash
+//************************/
+
+process.on("uncaughtException", err => { console.log(err) })
+process.on("unhandledRejection", err => {
+    console.log(err)
+    client.channels.cache.get(process.env.ERROR_CHANNEL).send(`<@715103156568064060>\n**ERROR**\n\`\`\`${err.toString()}\`\`\``)
+})

@@ -17,6 +17,7 @@ module.exports = {
             console.log(err);
         }
 
+
         if (data.modLogChannel === undefined) return
 
         const channel = client.channels.cache.get(data.modLogChannel);
