@@ -233,7 +233,7 @@ module.exports = {
                 .setColor("#2d2d2d")
                 .setDescription("Badwords filter has been desctivated in all channles")
 
-            interaction.reply({ embeds: [removedAllChnenls] })
+            interaction.reply({ embeds: [removedAllChnenls], ephemeral: true })
         }
     }
 
