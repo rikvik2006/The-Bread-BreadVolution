@@ -15,11 +15,26 @@ module.exports = {
         let badwords_detected = false
 
         badWords.forEach(word => {
-            if (message.content.includes(word)) 
-            badwords_detected = true
-        }) 
+            if (message.content.includes(word))
+                badwords_detected = true
+        })
 
-        if (badwords_detected) return
+        if (badwords_detected) {
+
+            let data
+
+            try {
+                data = await GuildConfig.findOne({ guildId: message.guild.id })
+
+                if (!data) {
+                    data = await GuildConfig.create({ guildId: message.guild.id })
+                }
+            } catch (err) {
+                console.log(err);
+            }
+
+            if (data.badWordsChannelAdd.find((id) => id === message.channel.id)) return;
+        }
 
         let data
 
