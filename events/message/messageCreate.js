@@ -40,7 +40,15 @@ module.exports = {
             message.reply({ embeds: [command_not_more_active] })
         } catch (error) {
             console.error(error);
-            message.reply('there was an error trying to execute that command!');
+
+            const command_error_embed = new Discord.MessageEmbed()
+                .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
+                .setColor(red_bread)
+                .setDescription(`There was an error trying to execute that command!\nAn error occurred in the execution of the command!
+                If it persists enter the support server with this link\n[Join in the discord server](https://discord.gg/4E2P87sWyu)`)
+
+
+            message.reply({ embeds: [command_error_embed] })
         }
     }
 }

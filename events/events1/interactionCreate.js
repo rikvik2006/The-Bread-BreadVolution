@@ -12,8 +12,14 @@ module.exports = {
         } catch (err) {
             if (err) console.error(err);
 
+            const command_error_embed = new Discord.MessageEmbed()
+                .setColor(red_bread)
+                .setDescription(`There was an error trying to execute that command!\nAn error occurred in the execution of the command!
+            If it persists enter the support server with this link\n[Join in the discord server](https://discord.gg/4E2P87sWyu)`)
+
+
             await interaction.reply({
-                content: "An error occured while executing this command!",
+                embeds: [command_error_embed],
                 ephemeral: true
             })
         }
