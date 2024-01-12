@@ -3,28 +3,53 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const GuildConfig = require("../../../../models/GuildConfig");
 const GuildSettings = require("../../../../models/GuildSettings");
 
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("serverinfo")
         .setDescription("Gets information about the server"),
 
+    /**
+     * @param {Discord.CommandInteraction} interaction 
+     */
     async execute(interaction) {
 
-        const server = interaction.guild;
+        const server = await interaction.guild.fetch();
 
-        const owner_member = interaction.guild.members.cache.get(server.ownerId);
+        const guildMembers = await server.members.fetch()
+        let ownerMember, botCount, userCount;
+        let isDefinedGuildMembers = false;
+        if (guildMembers && guildMembers.size != 0) {
+            isDefinedGuildMembers = true
+            ownerMember = guildMembers.get(server.ownerId);
+            botCount = guildMembers.filter(member => member.user.bot).size;
+            userCount = server.memberCount - botCount;
+        }
 
-        var botCount = server.members.cache.filter(member => member.user.bot).size;
-        var userCount = server.memberCount - botCount;
+        const guildChannels = await server.channels.fetch();
 
-        var categoryCount = server.channels.cache.filter(c => c.type == "category").size
-        var textCount = server.channels.cache.filter(c => c.type == "text").size
-        var voiceCount = server.channels.cache.filter(c => c.type == "voice").size
+        var categoryCount = guildChannels.filter(c => c.type == "GUILD_CATEGORY").size
+        var textCount = guildChannels.filter(c => c.type == "GUILD_TEXT").size
+        var voiceCount = guildChannels.filter(c => c.type == "GUILD_VOICE").size
         var roleCount = server.roles.cache.size;
 
-        if (server.premiumTier === "NONE") {
-            server.premiumTier = "No boost";
+        // if (server.premiumTier === "NONE") {
+        //     server.premiumTier = "No boost";
+        // } else if 
+
+        let premiumTierLevel
+        switch (server.premiumTier) {
+            case "NONE":
+                premiumTierLevel = null
+                break
+            case "TIER_1":
+                premiumTierLevel = "Level 1";
+                break
+            case "TIER_2":
+                premiumTierLevel = "Level 2";
+                break
+            case "TIER_3":
+                premiumTierLevel = "Level 3"
+                break
         }
 
         let data_guild_config
@@ -53,16 +78,25 @@ module.exports = {
             .setColor(yellow_bread)
             .addField("Server Name", server.name, true)
             .addField("Server ID", server.id, true)
-            .addField("Guild Owner", `${owner_member.tag}`, true)
-            .addField("Boost", server.premiumTier || "No boost", true)
+
+        if (isDefinedGuildMembers) {
+            server_info_embed.addField("Guild Owner", `${ownerMember.user.username}`, true)
+        }
+
+        server_info_embed
+            .addField("Boost", `${premiumTierLevel ? '[' + premiumTierLevel + ']' : ""} ${server.premiumSubscriptionCount}`, true)
             .addField("Channels", textCount + voiceCount + " Channels", true)
             .addField("Roles", roleCount + " Roles", true)
             .addField("Categories", categoryCount + " Categories", true)
-            .addField("Members", userCount + " Members", true)
+
+        if (isDefinedGuildMembers) {
+            server_info_embed.addField("Members", userCount + " Members", true)
+        }
+
+        server_info_embed
             .addField("Server Prefix", data_guild_config.prefix, true)
-            .addField("Welcome Channel", `<#${data_guild_settings.welcome_channel_id}>`)
-
-
+            // <#${data_guild_settings.welcome_channel_id}>
+            .addField("Welcome Channel", data_guild_settings.welcome_channel_id ? `<#${data_guild_settings.welcome_channel_id}>` : "No welcome channel setted")
 
 
 
