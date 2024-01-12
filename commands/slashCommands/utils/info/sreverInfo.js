@@ -14,16 +14,19 @@ module.exports = {
     async execute(interaction) {
 
         const server = await interaction.guild.fetch();
+        const intentsBitField = process.env.INTENTS;
+        const guildMembersIntents = 1 << 1;
+        const guildMembersIntentsIsSelected = intentsBitField & guildMembersIntents
 
-        const guildMembers = await server.members.fetch()
         let ownerMember, botCount, userCount;
-        let isDefinedGuildMembers = false;
-        if (guildMembers && guildMembers.size != 0) {
-            isDefinedGuildMembers = true
+        if (guildMembersIntentsIsSelected) {
+            const guildMembers = await server.members.fetch()
+
             ownerMember = guildMembers.get(server.ownerId);
             botCount = guildMembers.filter(member => member.user.bot).size;
             userCount = server.memberCount - botCount;
         }
+
 
         const guildChannels = await server.channels.fetch();
 
@@ -79,7 +82,7 @@ module.exports = {
             .addField("Server Name", server.name, true)
             .addField("Server ID", server.id, true)
 
-        if (isDefinedGuildMembers) {
+        if (guildMembersIntentsIsSelected) {
             server_info_embed.addField("Guild Owner", `${ownerMember.user.username}`, true)
         }
 
@@ -89,7 +92,7 @@ module.exports = {
             .addField("Roles", roleCount + " Roles", true)
             .addField("Categories", categoryCount + " Categories", true)
 
-        if (isDefinedGuildMembers) {
+        if (guildMembersIntentsIsSelected) {
             server_info_embed.addField("Members", userCount + " Members", true)
         }
 
